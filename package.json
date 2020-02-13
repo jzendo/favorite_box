@@ -1,0 +1,28 @@
+{
+  "name": "favorite_box",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/jzendo/favorite_box.git",
+  "author": "zendo <jzendo@example.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "standard": {
+    "ignore": [
+      "node_modules",
+      "build",
+      "build_es5"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "rollup": "^1.31.0",
+    "standard": "^14.3.1"
+  }
+}

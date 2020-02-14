@@ -19,6 +19,7 @@ describe('checkFunctionParameter', () => {
   test('is valid', () => {
     expect(checkFunctionParameter('a123')).toBeTruthy()
     expect(checkFunctionParameter('abc')).toBeTruthy()
+    expect(checkFunctionParameter('a = 123')).toBeTruthy()
     expect(checkFunctionParameter('{...abc}')).toBeTruthy()
     expect(checkFunctionParameter('...abc')).toBeTruthy()
   })

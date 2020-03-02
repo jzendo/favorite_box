@@ -51,3 +51,15 @@ Object.keys(_string).forEach(function (key) {
     }
   });
 });
+
+var _object = require("./object");
+
+Object.keys(_object).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _object[key];
+    }
+  });
+});

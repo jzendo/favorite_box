@@ -9,10 +9,10 @@ function deepFreeze(object, onlyShallowFreeze = false) {
   if (!onlyShallowFreeze) {
     var propNames = Object.getOwnPropertyNames(object);
 
-    for (let name of propNames) {
-      let value = object[name];
+    for (const name of propNames) {
+      const value = object[name];
 
-      if (value && typeof value === "object") {
+      if (value && typeof value === 'object') {
         deepFreeze(value);
       }
     }

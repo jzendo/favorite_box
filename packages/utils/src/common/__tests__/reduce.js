@@ -1,4 +1,4 @@
-/* global describe, test, expect */
+/* global describe, test, expect, beforeEach, afterEach */
 import reduce from '../reduce'
 
 const invalidArgTestCase = () => {
@@ -22,11 +22,13 @@ const normalTestCase = () => {
         reduce([1, 2, 3])
       }).toThrow()
 
+      // eslint-disable-next-line
       const result = reduce([1, 2, 3], (r, c) => r += c)
       expect(result).toEqual(6)
     })
 
     test('call with array & reducer & initial', () => {
+      // eslint-disable-next-line
       const result = reduce([1, 2, 3], (r, c) => r += c, 10)
       expect(result).toEqual(16)
     })
@@ -47,10 +49,12 @@ describe('reduce', () => {
     const nativeReduce = Array.prototype.reduce
 
     beforeEach(() => {
+      // eslint-disable-next-line
       Array.prototype.reduce = undefined
     })
 
     afterEach(() => {
+      // eslint-disable-next-line
       Array.prototype.reduce = nativeReduce
     })
 

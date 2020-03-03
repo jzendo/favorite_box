@@ -3,10 +3,10 @@ import freeze from '../freeze'
 
 describe('object freeze', () => {
   test('default freezen', () => {
-    let a = {
+    const a = {
       test: 1
     }
-    let freezenA = freeze(a)
+    const freezenA = freeze(a)
 
     expect(Object.isFrozen(a)).toBeTruthy()
     expect(freezenA).toEqual(a)
@@ -28,14 +28,14 @@ describe('object freeze', () => {
   })
 
   test('shallow freezen', () => {
-    let a = {
+    const a = {
       test: 1,
       test2: {
         // can add/remove/modify object
         test2Child: 2
       }
     }
-    let freezenA = freeze(a, true)
+    const freezenA = freeze(a, true)
 
     expect(Object.isFrozen(a)).toBeTruthy()
     expect(freezenA).toEqual(a)
@@ -62,12 +62,12 @@ describe('object freeze', () => {
 
   test('prototype property freezen', () => {
     class A {
-      get test() {
+      get test () {
         return 'test'
       }
     }
 
-    const a = new A
+    const a = new A()
     const freezenA = freeze(a)
 
     expect(Object.isFrozen(a)).toBeTruthy()
@@ -75,6 +75,7 @@ describe('object freeze', () => {
 
     // Can not modify prototype property which has be freezen
     expect(() => {
+      // eslint-disable-next-line
       a.__proto__.test = 567
     }).toThrow()
   })

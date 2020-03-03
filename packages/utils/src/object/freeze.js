@@ -16,13 +16,13 @@
  * @param {boolean} onlyShallowFreeze whether shallow freeze or not
  * @returns {Object} the freezen object
  */
-export default function deepFreeze(object, onlyShallowFreeze = false) {
+export default function deepFreeze (object, onlyShallowFreeze = false) {
   if (!onlyShallowFreeze) {
     // Retrieve the property names defined on object
     var propNames = Object.getOwnPropertyNames(object)
-    for (let name of propNames) {
-      let value = object[name]
-      if(value && typeof value === "object") {
+    for (const name of propNames) {
+      const value = object[name]
+      if (value && typeof value === 'object') {
         deepFreeze(value)
       }
     }

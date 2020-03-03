@@ -1,7 +1,7 @@
 import isFunc from './isFunc'
 import isArray from './isArray'
 
-const reducePolyfill = function(arr, reducer, initial) {
+const reducePolyfill = function (arr, reducer, initial) {
   const len = arr.length
   let current = 0
 
@@ -44,6 +44,7 @@ function reduce (array, reducer, initial) {
   }
 
   const args = [...arguments]
+
   if (isFunc(Array.prototype?.reduce)) {
     return Array.prototype.reduce.call(...args)
   } else {

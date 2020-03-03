@@ -8,12 +8,13 @@ const EOF_VALUE = undefined
 
 export default initFactory => (prefix = '', suffix = '') => {
   const {
+    userGenerateStrUniqueId,
     getCurrent,
     onDispose
   } = initFactory({ prefix, suffix })
 
   let isEOF = false
-  let current = genStrUniqueId(prefix, suffix)
+  let current = (userGenerateStrUniqueId || genStrUniqueId)(prefix, suffix)
 
   const genUuid = () => {
     if (isEOF) return EOF_VALUE

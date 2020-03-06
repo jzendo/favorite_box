@@ -1,19 +1,24 @@
 {
   "name": "@jzendo/utils",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "main": "index.js",
+  "description": "Many utils is setup for your daily job, enjoy it",
   "repository": "https://github.com/jzendo/favorite_box.git",
   "homepage": "https://github.com/jzendo/favorite_box/tree/master/packages/utils",
   "author": "zendo <jzendo@example.com>",
   "license": "MIT",
   "keywords": [
-    "generator function runner",
-    "array",
-    "function compose",
-    "object freeze",
-    "make uuid",
     "analyzer",
-    "array traverse"
+    "array traverse",
+    "array tool",
+    "dom utils",
+    "function tool",
+    "function compose",
+    "function memoized",
+    "generator function runner",
+    "object freeze",
+    "string repeat",
+    "uuid maker"
   ],
   "scripts": {
     "build": "npm run build:cjs",

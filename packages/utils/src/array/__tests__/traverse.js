@@ -1,16 +1,12 @@
 /* global describe, test, expect, beforeEach, afterEach */
-import {
-  traverse
-} from '../helper'
+import traverse from '../traverse'
 
 describe('array/helper @traverse', () => {
-
   describe('normal', () => {
     let arr
 
     beforeEach(() => {
       arr = [1, 2, 6]
-
     })
 
     afterEach(() => {
@@ -82,7 +78,7 @@ describe('array/helper @traverse', () => {
         popFirst
       } = traverse(arr)
 
-      let testValue = 5
+      const testValue = 5
       let arrSize = size()
 
       // Test push result and last item
@@ -106,7 +102,6 @@ describe('array/helper @traverse', () => {
       expect(size()).toEqual(arrSize)
     })
 
-
     test('`push` && `pushFirst` with multi items', () => {
       const {
         first,
@@ -118,8 +113,8 @@ describe('array/helper @traverse', () => {
         pushFirst
       } = traverse(arr)
 
-      let testValue1 = 5
-      let testValue2 = 6
+      const testValue1 = 5
+      const testValue2 = 6
 
       let arrSize = size()
 
@@ -128,7 +123,6 @@ describe('array/helper @traverse', () => {
       expect(push(testValue1, testValue2)).toEqual(arrSize)
       expect(last()).toEqual(testValue2)
       expect(indexAt(lastIndex() - 1)).toEqual(testValue1)
-
 
       // Test pushFirst result and last item
       arrSize += 2
@@ -156,19 +150,19 @@ describe('array/helper @traverse', () => {
   describe('illegal', () => {
     test('invalid parameter', () => {
       expect(() => {
+        // eslint-disable-next-line
         const {} = traverse(1)
       }).toThrow()
 
       expect(() => {
+        // eslint-disable-next-line
         const {} = traverse(true)
       }).toThrow()
 
       expect(() => {
-        const {} = traverse(function() {})
+        // eslint-disable-next-line
+        const {} = traverse(function () {})
       }).toThrow()
     })
-
-
   })
-
 })

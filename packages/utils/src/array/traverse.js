@@ -3,9 +3,15 @@ import isArray from '../common/isArray'
 const INVALID_INDEX = -1
 const RND_DEFAULT_INDEX = INVALID_INDEX
 
-export const traverse = arr => {
+/**
+ * Get traverse utils for array
+ *
+ * @param {Array} arr the operating array
+ * @returns {Object}
+ */
+export default function traverse (arr) {
   if (!isArray(arr)) {
-    throw new TypeError(`The parameter should be an array.`)
+    throw new TypeError('The parameter should be an array.')
   }
 
   const first = () => arr[0]
@@ -70,6 +76,7 @@ export const traverse = arr => {
     arr.unshift(...args)
     return size()
   }
+
   // Exports
   return {
     first,
@@ -86,6 +93,6 @@ export const traverse = arr => {
     pop,
     push,
     popFirst,
-    pushFirst,
+    pushFirst
   }
 }

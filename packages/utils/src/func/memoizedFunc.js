@@ -1,7 +1,7 @@
 import getFuncArgNames from '../common/getFuncArgNames'
 import hasOwnProperty from '../common/hasOwnProp'
 import isFunc from '../common/isFunc'
-import stringify, {parse} from '../common/stringify'
+import stringify from '../common/stringify'
 
 const getInitCache = () => Object.create(null)
 
@@ -88,16 +88,16 @@ var wrapFn = function ${wrapFnName}(${argNames.join(', ')}) {
 
   if (!disposed && cacheUtil.has(uniqueArgKey)) {
     ${/* Only for unit/test, do not modify here!! */
-      process.env.NODE_ENV === 'test' ?
-        `fn.__onCacheGetter([${argNames.join(', ')}], uniqueArgKey, cacheUtil)` :
-        ''
+      process.env.NODE_ENV === 'test'
+        ? `fn.__onCacheGetter([${argNames.join(', ')}], uniqueArgKey, cacheUtil)`
+        : ''
     }
 
     return cacheUtil.get(uniqueArgKey)
   }${
-    process.env.NODE_ENV === 'test' ?
-      `else { fn.__onSkipGetter(disposed, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }` :
-      ''
+    process.env.NODE_ENV === 'test'
+      ? `else { fn.__onSkipGetter(disposed, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }`
+      : ''
   }
 
   var args = [${argNames.join(', ')}]
@@ -106,14 +106,14 @@ var wrapFn = function ${wrapFnName}(${argNames.join(', ')}) {
   if (!disposed && r !== undefined) {
     cacheUtil.add(uniqueArgKey, r)
     ${
-      process.env.NODE_ENV === 'test' ?
-        `fn.__onCacheSetter(r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil)` :
-        ''
+      process.env.NODE_ENV === 'test'
+        ? `fn.__onCacheSetter(r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil)`
+        : ''
     }
   }${
-    process.env.NODE_ENV === 'test' ?
-      `else { fn.__onSkipSetter(disposed, r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }` :
-      ''
+    process.env.NODE_ENV === 'test'
+      ? `else { fn.__onSkipSetter(disposed, r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }`
+      : ''
   }
 
   return r
@@ -128,9 +128,9 @@ return wrapFn
   `)
 }
 
-const keyOfMemoizedFn = Symbol ?
-  Symbol('Symbol.memoizedFunc') :
-  'Symbol.memoizedFunc'
+const keyOfMemoizedFn = Symbol
+  ? Symbol('Symbol.memoizedFunc')
+  : 'Symbol.memoizedFunc'
 
 /**
  * Get function with memoized the function's result for performance.

@@ -1,1 +1,1 @@
-export { traverse as traverseUtil } from './helper'
+export { default as traverse } from './traverse'

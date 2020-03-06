@@ -2,7 +2,6 @@
 
 const memoizedFunc = require('../build_cjs/func/memoizedFunc').default
 
-
 const getTime = () => Date.now()
 
 const TEST_COUNT = 100
@@ -27,7 +26,7 @@ const testFunc = (a, b, c) => {
 const loopCalled = fn => {
   let r = 0
   let sum = 0
-  for (let j = 0; j < data.length - 1; j++)  {
+  for (let j = 0; j < data.length - 1; j++) {
     r = 0
     sum = TEST_COUNT * TEST_COUNT * (data[j][data[j].length - 1] || 0)
 
@@ -35,7 +34,7 @@ const loopCalled = fn => {
       r += fn(...data[j])
     }
 
-    console.log(`\nThe calc result(${ r }) is equal to ${ sum }? ${r === sum}`)
+    console.log(`\nThe calc result(${r}) is equal to ${sum}? ${r === sum}`)
   }
 }
 
@@ -63,7 +62,6 @@ const normalFuncTest = (fn) => {
     duration: end - start
   }
 }
-
 
 console.log('\nThe memoized function: ', memoizedFunc(testFunc).toString())
 

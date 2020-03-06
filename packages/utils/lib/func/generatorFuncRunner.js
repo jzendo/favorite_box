@@ -45,8 +45,17 @@ function runner(generatorFunc, optional = true) {
     };
   }
 
-  const iterator = generatorFunc();
-  next(iterator, iterator.next(), optionalArg);
+  try {
+    const iterator = generatorFunc();
+    next(iterator, iterator.next(), optionalArg);
+  } catch (err) {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('generatorFunctionRunner catch exception when init: ', err);
+    }
+
+    optionalArg[CALLBACK_GENERATOR_FN_RESULT](err, null);
+  }
+
   return runnerCalledResult;
 }
 
@@ -67,6 +76,10 @@ function next(iterator, nextGeneratorObject, opt = {}) {
   if (!isDone) {
     if (value instanceof Promise) {
       value.then(v => next(iterator, iterator.next(v), opt)).catch(err => {
+        if (process.env.NODE_ENV === 'development') {
+          console.log('generatorFunctionRunner catch exception when next: ', err);
+        }
+
         finish(opt, err);
       });
     } else {

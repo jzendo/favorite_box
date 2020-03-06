@@ -1,6 +1,7 @@
 // Node enviroment
 const generatorFnRunner = require('../lib/func/generatorFuncRunner').default
 
+// Example: throw error
 const gfn1 = function * () {
   // eslint-disable-next-line
   const c = yield new Promise(r => setTimeout(() => r('c')))
@@ -22,3 +23,25 @@ generatorFnRunner(gfn2)
     console.log('Exception:')
     console.error(err)
   })
+
+// Example: normal
+function * anotherGeneratorFunc () {
+  const a = ''
+  const b = yield new Promise(resolve => {
+    setTimeout(() => resolve(''), 3000)
+  })
+
+  return a + b + 'c'
+}
+
+generatorFnRunner(function * () {
+  const a = 'a'
+
+  const b = yield new Promise(resolve => {
+    setTimeout(() => resolve('b'), 3000)
+  })
+
+  const c = yield * anotherGeneratorFunc()
+
+  return a + b + c
+}).then(v => console.log('v: ', v))

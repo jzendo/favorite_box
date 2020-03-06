@@ -1,3 +1,3 @@
-# Favorite box
+# Favorite Box - Utils
 
-A utils & algorithms box for you, enjoy it.
+A utils for you, enjoy it.

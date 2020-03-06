@@ -16,6 +16,18 @@ Object.keys(_analyzer).forEach(function (key) {
   });
 });
 
+var _array = require("./array");
+
+Object.keys(_array).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _array[key];
+    }
+  });
+});
+
 var _dom = require("./dom");
 
 Object.keys(_dom).forEach(function (key) {
@@ -40,6 +52,18 @@ Object.keys(_func).forEach(function (key) {
   });
 });
 
+var _object = require("./object");
+
+Object.keys(_object).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _object[key];
+    }
+  });
+});
+
 var _string = require("./string");
 
 Object.keys(_string).forEach(function (key) {
@@ -52,14 +76,14 @@ Object.keys(_string).forEach(function (key) {
   });
 });
 
-var _object = require("./object");
+var _unique = require("./unique");
 
-Object.keys(_object).forEach(function (key) {
+Object.keys(_unique).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _object[key];
+      return _unique[key];
     }
   });
 });

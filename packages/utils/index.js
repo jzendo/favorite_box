@@ -1,1 +1,1 @@
-module.exports = require('./build_es5')
+module.exports = require('./lib')

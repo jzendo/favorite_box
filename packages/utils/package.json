@@ -1,24 +1,40 @@
 {
-  "name": "favorite_box",
-  "version": "0.1.0",
+  "name": "@jzendo/utils",
+  "version": "0.1.3",
   "main": "index.js",
   "repository": "https://github.com/jzendo/favorite_box.git",
+  "homepage": "https://github.com/jzendo/favorite_box/tree/master/packages/utils",
   "author": "zendo <jzendo@example.com>",
   "license": "MIT",
+  "keywords": [
+    "generator function runner",
+    "array",
+    "function compose",
+    "object freeze",
+    "make uuid",
+    "analyzer",
+    "array traverse"
+  ],
   "scripts": {
     "build": "npm run build:cjs",
-    "build:cjs": "babel --no-comments src --out-dir build_cjs --ignore \"src/**/__tests__/**\"",
-    "build:optOutput": "babel --plugins minify-dead-code-elimination --no-comments build_cjs --out-dir build_cjs --ignore \"src/**/__tests__/**\"",
+    "build:cjs": "babel --no-comments src --out-dir lib --ignore \"src/**/__tests__/**\"",
+    "build:optOutput": "babel --plugins minify-dead-code-elimination --no-comments lib --out-dir lib --ignore \"src/**/__tests__/**\"",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "test": "jest"
   },
+  "files": [
+    "lib",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
       "node_modules",
       "build",
-      "build_cjs"
+      "lib"
     ]
   },
   "devDependencies": {

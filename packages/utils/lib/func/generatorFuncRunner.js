@@ -34,13 +34,14 @@ function runner(generatorFunc, optional = true) {
   if (optionalArg === true) {
     const {
       promise,
-      resolve
+      resolve,
+      reject
     } = (0, _defer.default)();
     runnerCalledResult = promise;
     optionalArg = {};
 
-    optionalArg[CALLBACK_GENERATOR_FN_RESULT] = v => {
-      resolve(v);
+    optionalArg[CALLBACK_GENERATOR_FN_RESULT] = (err, v) => {
+      if (err) reject(err);else resolve(v);
     };
   }
 
@@ -49,14 +50,24 @@ function runner(generatorFunc, optional = true) {
   return runnerCalledResult;
 }
 
-function next(iterator, nextGeneratorObject, opt) {
+function finish(opt, err, value = null) {
+  const {
+    [CALLBACK_GENERATOR_FN_RESULT]: onReturnValue
+  } = opt;
+
+  if ((0, _isFunc.default)(onReturnValue)) {
+    onReturnValue(err, value);
+  }
+}
+
+function next(iterator, nextGeneratorObject, opt = {}) {
   const isDone = nextGeneratorObject.done;
   const value = nextGeneratorObject.value;
 
   if (!isDone) {
     if (value instanceof Promise) {
-      value.then(v => {
-        next(iterator, iterator.next(v), opt);
+      value.then(v => next(iterator, iterator.next(v), opt)).catch(err => {
+        finish(opt, err);
       });
     } else {
       if (value !== undefined) {
@@ -66,14 +77,6 @@ function next(iterator, nextGeneratorObject, opt) {
       }
     }
   } else {
-    if (opt) {
-      const {
-        [CALLBACK_GENERATOR_FN_RESULT]: onReturnValue
-      } = opt || {};
-
-      if ((0, _isFunc.default)(onReturnValue)) {
-        onReturnValue(value);
-      }
-    }
+    finish(opt, null, value);
   }
 }

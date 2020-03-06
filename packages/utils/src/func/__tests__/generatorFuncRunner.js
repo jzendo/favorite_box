@@ -68,7 +68,7 @@ const testCase = testGeneratorFunc => {
   describe(`generatorFuncRunner ${getFuncBody(testGeneratorFunc)}`, () => {
     test('callback mode', done => {
       generatorFuncRunner(testGeneratorFunc, {
-        onReturnValue (v) {
+        onReturnValue (_, v) {
           expect(v).toBe(3)
           done()
         }
@@ -79,6 +79,24 @@ const testCase = testGeneratorFunc => {
       expect(v).toBe(3)
       done()
     }
+
+    test('promise mode with reject', done => {
+      const testError = new Error('test')
+      function * testGeneratorFunc () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => reject(testError), 100)
+        })
+        return a + b
+      }
+
+      generatorFuncRunner(testGeneratorFunc)
+        .catch(err => {
+          expect(err).toEqual(testError)
+          done()
+        })
+    })
 
     test('promise mode with `no opt`', done => {
       generatorFuncRunner(testGeneratorFunc)

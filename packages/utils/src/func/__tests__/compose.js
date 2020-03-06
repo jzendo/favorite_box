@@ -1,6 +1,6 @@
 /* global describe, test, expect */
 
-import {compose, composeAsync} from '../compose'
+import { compose, composeAsync } from '../compose'
 
 describe('compose', () => {
   test('arg number or type is not legal', () => {

@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.composeAsync = exports.compose = exports.default = void 0;
 
-var _reduce = _interopRequireDefault(require("../common/reduce"));
+var _isFunc = _interopRequireDefault(require("../../common/isFunc"));
 
-var _isFunc = _interopRequireDefault(require("../common/isFunc"));
+var _strategyIterate = require("./strategyIterate");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,9 +33,7 @@ const checkArgs = args => {
   }
 };
 
-const reducer = (prev, fn) => (...args) => fn(prev(...args));
-
-const compose = function compose(fn1, fn2, runInReverse) {
+const withStrategy = strategyComposeFn => function composeFunc(fn1, fn2, runInReverse) {
   const originFns = [...arguments];
   checkArgs(originFns);
   const fns = originFns.slice(0);
@@ -50,10 +48,14 @@ const compose = function compose(fn1, fn2, runInReverse) {
     }
   }
 
-  const composedFn = (0, _reduce.default)(fns, reducer);
+  const composedFn = strategyComposeFn(fns);
   composedFn.args = originFns;
   return composedFn;
 };
 
+const compose = withStrategy(_strategyIterate.syncComposed);
+exports.compose = compose;
+const composeAsync = withStrategy(_strategyIterate.asyncComposed);
+exports.composeAsync = composeAsync;
 var _default = compose;
 exports.default = _default;

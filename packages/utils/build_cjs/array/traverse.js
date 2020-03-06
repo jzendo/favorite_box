@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.traverse = void 0;
+exports.default = traverse;
 
 var _isArray = _interopRequireDefault(require("../common/isArray"));
 
@@ -12,9 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const INVALID_INDEX = -1;
 const RND_DEFAULT_INDEX = INVALID_INDEX;
 
-const traverse = arr => {
+function traverse(arr) {
   if (!(0, _isArray.default)(arr)) {
-    throw new TypeError(`The parameter should be an array.`);
+    throw new TypeError('The parameter should be an array.');
   }
 
   const first = () => arr[0];
@@ -89,6 +89,4 @@ const traverse = arr => {
     popFirst,
     pushFirst
   };
-};
-
-exports.traverse = traverse;
+}

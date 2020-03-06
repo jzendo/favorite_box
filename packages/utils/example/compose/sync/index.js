@@ -1,6 +1,7 @@
 // Node enviroment
 
-!function() {
+// eslint-disable-next-line
+!(function () {
   const [result, expected] = require('./normal')()
 
   console.log('\n---------------------- sync normal -----------------------')
@@ -8,10 +9,10 @@
   console.log(` -   result: ${result}`)
   console.log(` - expected: ${expected}`)
   console.log('\n--------------------------------------------------------')
+}())
 
-}()
-
-!function() {
+// eslint-disable-next-line
+!(function () {
   const [result, expected] = require('./reverse')()
 
   console.log('\n---------------------- sync reverse -----------------------')
@@ -19,4 +20,4 @@
   console.log(` -   result: ${result}`)
   console.log(` - expected: ${expected}`)
   console.log('\n--------------------------------------------------------')
-}()
+}())

@@ -1,4 +1,4 @@
-const composeAsync = require('../../../build_cjs/func/compose').composeAsync
+const composeAsync = require('../../../lib/func/compose').composeAsync
 
 const fn1 = function (v, next) { next(v + '_fn1') }
 const fn2 = function (v, next) { next(v + '_fn2') }

@@ -1,6 +1,6 @@
 // Node enviroment
 
-const memoizedFunc = require('../build_cjs/func/memoizedFunc').default
+const memoizedFunc = require('../lib/func/memoizedFunc').default
 
 const getTime = () => Date.now()
 

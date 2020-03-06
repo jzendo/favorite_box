@@ -1,4 +1,4 @@
-const compose = require('../../../build_cjs/func/compose').compose
+const compose = require('../../../lib/func/compose').compose
 
 const fn1 = function (v) { return v + '_fn1' }
 const fn2 = function (v) { return v + '_fn2' }

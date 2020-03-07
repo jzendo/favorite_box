@@ -21,12 +21,19 @@
     "uuid maker"
   ],
   "scripts": {
+    "test": "jest",
     "build": "npm run build:cjs",
     "build:cjs": "babel --no-comments src --out-dir lib --ignore \"src/**/__tests__/**\"",
     "build:optOutput": "babel --plugins minify-dead-code-elimination --no-comments lib --out-dir lib --ignore \"src/**/__tests__/**\"",
-    "lint": "standard",
-    "lint:fix": "standard --fix",
-    "test": "jest"
+    "lint": "prettier-standard --lint",
+    "lint:fix": "prettier-standard --format --changed",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier-standard --format --staged",
+      "git add"
+    ]
   },
   "files": [
     "lib",
@@ -52,7 +59,10 @@
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "cross-env": "^7.0.1",
+    "husky": "^4.2.3",
     "jest": "^25.1.0",
+    "lint-staged": "^10.0.8",
+    "prettier-standard": "^16.2.1",
     "rollup": "^1.31.0",
     "standard": "^14.3.1"
   },

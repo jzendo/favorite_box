@@ -266,4 +266,66 @@ describe('generatorFuncRunner', () => {
         })
     })
   })
+
+  describe('nest call', () => {
+    const testError = new Error('test')
+
+    test('normal', done => {
+      const innerGeneratorFunc = function * () {
+        const a = 0
+        const b = yield new Promise(resolve => {
+          setTimeout(() => resolve(1), 800)
+        })
+
+        return a + b
+      }
+
+      const testGeneratorFunc = function * () {
+        const a = yield 1
+        const b = yield new Promise((resolve) => {
+          const innerRunnerPromise = generatorFuncRunner(innerGeneratorFunc)
+          resolve(innerRunnerPromise)
+        })
+
+        const c = yield 1
+
+        return a + b + c
+      }
+
+      generatorFuncRunner(testGeneratorFunc)
+        .then(v => {
+          expect(v).toEqual(3)
+          done()
+        })
+    })
+
+    test('exception', done => {
+      const innerGeneratorFunc = function * () {
+        const a = 0
+        const b = yield new Promise((resolve, reject) => {
+          setTimeout(() => reject(testError), 800)
+        })
+
+        return a + b
+      }
+
+      const testGeneratorFunc = function * () {
+        const a = yield 1
+        const b = yield new Promise((resolve) => {
+          const innerRunnerPromise = generatorFuncRunner(innerGeneratorFunc)
+          resolve(innerRunnerPromise)
+        })
+
+        const c = yield 1
+
+        return a + b + c
+      }
+
+      generatorFuncRunner(testGeneratorFunc)
+        .catch(err => {
+          expect(err).toEqual(testError)
+          done()
+        })
+    })
+  })
 })

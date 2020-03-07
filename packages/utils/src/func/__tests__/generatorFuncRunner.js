@@ -204,6 +204,15 @@ describe('generatorFuncRunner', () => {
       /* eslint-enable */
     }
 
+    const anotherGeneratorFunc3 = function * () {
+      // eslint-disable-next-line
+      const b = yield new Promise((resolve, reject) => {
+        setTimeout(() => reject(testError), 100)
+      })
+
+      return 1
+    }
+
     exceptionTestCase('yield another exception', function * () {
       const a = 1
       const b = yield new Promise((resolve, reject) => {
@@ -224,6 +233,18 @@ describe('generatorFuncRunner', () => {
       })
 
       const c = yield * anotherGeneratorFunc2()
+
+      return a + b + c
+    }, testError)
+
+    exceptionTestCase('yield another exception after reject promise', function * () {
+      const a = 1
+      const b = yield new Promise((resolve, reject) => {
+        // Timeout amount is not important, but make `call resolve` async is important
+        setTimeout(() => resolve(1), 100)
+      })
+
+      const c = yield * anotherGeneratorFunc3()
 
       return a + b + c
     }, testError)

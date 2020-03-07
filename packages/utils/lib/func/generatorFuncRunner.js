@@ -80,7 +80,7 @@ function next(iterator, nextGeneratorObject, opt = {}) {
           console.log('generatorFunctionRunner catch exception when next: ', err);
         }
 
-        finish(opt, err);
+        finish(opt, err, null);
       });
     } else {
       if (value !== undefined) {

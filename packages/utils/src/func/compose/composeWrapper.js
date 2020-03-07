@@ -7,7 +7,11 @@ import checkArgs from './checkArgs'
  * @returns {function}
  */
 export default function composeWrapper (strategyComposeFn) {
-  return function composeFunc (fn1, fn2/* , fn3, ... */, /* fn(N) || runInReverse */ runInReverse) {
+  return function composeFunc (
+    fn1,
+    fn2 /* , fn3, ... */,
+    /* fn(N) || runInReverse */ runInReverse
+  ) {
     const originFns = [...arguments]
 
     // All should be function, excluding the last one

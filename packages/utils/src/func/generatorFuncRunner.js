@@ -12,7 +12,10 @@ const CALLBACK_GENERATOR_FN_RESULT = 'onReturnValue'
 function checkArgs (generatorFunc, optional) {
   invariant(isGeneratorFunc(generatorFunc), 'Should be a generator function.')
   // boolean or plain object(not null)
-  invariant(isBoolean(optional) || isPlainObject(optional), 'Should be a generator function.')
+  invariant(
+    isBoolean(optional) || isPlainObject(optional),
+    'Should be a generator function.'
+  )
 }
 
 /**
@@ -31,11 +34,7 @@ export default function runner (generatorFunc, optional = true) {
 
   // Result with promise ?
   if (optionalArg === true) {
-    const {
-      promise,
-      resolve,
-      reject
-    } = defer()
+    const { promise, resolve, reject } = defer()
 
     // Set `promise` as returned-value
     runnerCalledResult = promise
@@ -76,10 +75,14 @@ function next (iterator, nextGeneratorObject, opt = {}) {
 
   if (!isDone) {
     if (value instanceof Promise) {
-      value.then(v => next(iterator, iterator.next(v), opt))
+      value
+        .then(v => next(iterator, iterator.next(v), opt))
         .catch(err => {
           if (process.env.NODE_ENV === 'development') {
-            console.log('generatorFunctionRunner catch exception when next: ', err)
+            console.log(
+              'generatorFunctionRunner catch exception when next: ',
+              err
+            )
           }
           finish(opt, err, null)
         })

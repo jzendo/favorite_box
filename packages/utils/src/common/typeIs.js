@@ -10,7 +10,8 @@ export default function typeIs (obj, expectedType = '') {
   const trimedType = expectedType.trim()
 
   // Big camel case
-  const casedType = trimedType.slice(0, 1).toUpperCase() + getCamelCase(trimedType.slice(1))
+  const casedType =
+    trimedType.slice(0, 1).toUpperCase() + getCamelCase(trimedType.slice(1))
 
   return str === `[object ${casedType}]`
 }

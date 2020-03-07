@@ -23,13 +23,13 @@ const normalTestCase = () => {
       }).toThrow()
 
       // eslint-disable-next-line
-      const result = reduce([1, 2, 3], (r, c) => r += c)
+      const result = reduce([1, 2, 3], (r, c) => (r += c))
       expect(result).toEqual(6)
     })
 
     test('call with array & reducer & initial', () => {
       // eslint-disable-next-line
-      const result = reduce([1, 2, 3], (r, c) => r += c, 10)
+      const result = reduce([1, 2, 3], (r, c) => (r += c), 10)
       expect(result).toEqual(16)
     })
   })

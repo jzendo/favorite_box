@@ -9,8 +9,15 @@ export default function checkArgs (args) {
 
   for (let i = 0; i < argCount - 1; i++) {
     if (!isFunc(args[i])) {
-      if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
-        console.log(`Expect a function, but actual type=${typeof args[i]}, toString=${String(args[i])}.`)
+      if (
+        process.env.NODE_ENV !== 'production' &&
+        process.env.NODE_ENV !== 'test'
+      ) {
+        console.log(
+          `Expect a function, but actual type=${typeof args[
+            i
+          ]}, toString=${String(args[i])}.`
+        )
       }
 
       throw new TypeError(`The ${i + 1}th arg should be a function.`)

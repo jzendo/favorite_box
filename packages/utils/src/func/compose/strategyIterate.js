@@ -11,7 +11,8 @@ export const asyncComposed = fns => {
       strategyNext = r => {
         next(r, current + 1, callback)
       }
-    } else { // Finish
+    } else {
+      // Finish
       strategyNext = r => {
         callback(r)
       }

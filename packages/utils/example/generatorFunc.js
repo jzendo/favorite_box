@@ -3,7 +3,7 @@ const generatorFnRunner = require('../lib/func/generatorFuncRunner').default
 
 // Example: throw error
 const gfn1 = function * () {
-  // eslint-disable-next-line
+  // eslint-disable-next-line promise/param-names
   const c = yield new Promise(r => setTimeout(() => r('c')))
   return c + 'd'
 }

@@ -3,11 +3,9 @@
 const stringify = o => JSON.stringify(o)
 
 const testCase = (uuidFn, skipDispose, prefix = '', suffix = '') => {
-  describe(`generate uuid factory with <prefix = ${
-    stringify(prefix)
-  }, suffix = ${
-    stringify(suffix)
-  }>`, () => {
+  describe(`generate uuid factory with <prefix = ${stringify(
+    prefix
+  )}, suffix = ${stringify(suffix)}>`, () => {
     let makeUuid
 
     if (skipDispose) {
@@ -34,7 +32,11 @@ const testCase = (uuidFn, skipDispose, prefix = '', suffix = '') => {
 
     test('prefix and suffix', () => {
       const id = makeUuid()
-      const actual = makeUuid.joinWith_(prefix, makeUuid.getUniqueFactorValue_(), suffix)
+      const actual = makeUuid.joinWith_(
+        prefix,
+        makeUuid.getUniqueFactorValue_(),
+        suffix
+      )
 
       // Test prefix & suffix
       expect(id).toEqual(actual)

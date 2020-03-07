@@ -6,17 +6,25 @@
   "author": "zendo <jzendo@example.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "prettier-standard --lint",
-    "lint:fix": "prettier-standard --format --changed",
-    "precommit": "lint-staged"
+    "lint": "prettier-standard --lint --changed",
+    "lint:default": "prettier-standard --lint",
+    "lint:fix": "standard --fix && prettier-standard --format --changed",
+    "lint:fix:default": "standard --fix && prettier-standard --format"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --allow-empty"
+    }
   },
   "lint-staged": {
     "*.js": [
-      "prettier-standard --format --staged",
+      "standard --fix",
+      "prettier-standard --format",
       "git add"
     ]
   },
   "standard": {
+    "parser": "babel-eslint",
     "ignore": [
       "node_modules",
       "build",
@@ -27,7 +35,13 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "lerna": "^3.20.2",

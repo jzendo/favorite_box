@@ -9,7 +9,7 @@
   console.log(` -   result: ${result}`)
   console.log(` - expected: ${expected}`)
   console.log('\n--------------------------------------------------------')
-}())
+})()
 
 // eslint-disable-next-line
 !(function () {
@@ -20,4 +20,4 @@
   console.log(` -   result: ${result}`)
   console.log(` - expected: ${expected}`)
   console.log('\n--------------------------------------------------------')
-}())
+})()

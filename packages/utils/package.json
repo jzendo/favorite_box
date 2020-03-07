@@ -24,16 +24,10 @@
     "test": "jest",
     "build": "npm run build:cjs",
     "build:cjs": "babel --no-comments src --out-dir lib --ignore \"src/**/__tests__/**\"",
-    "build:optOutput": "babel --plugins minify-dead-code-elimination --no-comments lib --out-dir lib --ignore \"src/**/__tests__/**\"",
-    "lint": "prettier-standard --lint",
-    "lint:fix": "prettier-standard --format --changed",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier-standard --format --staged",
-      "git add"
-    ]
+    "lint": "prettier-standard --lint --changed",
+    "lint:default": "prettier-standard --lint",
+    "lint:fix": "standard --fix && prettier-standard --format --changed",
+    "lint:fix:default": "standard --fix && prettier-standard --format"
   },
   "files": [
     "lib",
@@ -59,7 +53,12 @@
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "cross-env": "^7.0.1",
-    "husky": "^4.2.3",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
     "prettier-standard": "^16.2.1",

@@ -1,8 +1,14 @@
 const composeAsync = require('../../../lib/func/compose').composeAsync
 
-const fn1 = function (v, next) { next(v + '_fn1') }
-const fn2 = function (v, next) { next(v + '_fn2') }
-const fn3 = function (v, next) { next(v + '_fn3') }
+const fn1 = function (v, next) {
+  next(v + '_fn1')
+}
+const fn2 = function (v, next) {
+  next(v + '_fn2')
+}
+const fn3 = function (v, next) {
+  next(v + '_fn3')
+}
 
 const expected = 'fn4_fn3_fn2_fn1'
 

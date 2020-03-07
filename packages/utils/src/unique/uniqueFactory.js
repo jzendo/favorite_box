@@ -2,16 +2,16 @@ let uniqueFactorValue_ = 0
 
 const joinWith_ = (prefix, id, suffix) => prefix + String(id) + suffix
 
-export const genStrUniqueId = (prefix = '', suffix = '') => joinWith_(prefix, ++uniqueFactorValue_, suffix)
+export const genStrUniqueId = (prefix = '', suffix = '') =>
+  joinWith_(prefix, ++uniqueFactorValue_, suffix)
 
 const EOF_VALUE = undefined
 
 export default initFactory => (prefix = '', suffix = '') => {
-  const {
-    userGenerateStrUniqueId,
-    getCurrent,
-    onDispose
-  } = initFactory({ prefix, suffix })
+  const { userGenerateStrUniqueId, getCurrent, onDispose } = initFactory({
+    prefix,
+    suffix
+  })
 
   let isEOF = false
   let current = (userGenerateStrUniqueId || genStrUniqueId)(prefix, suffix)
@@ -47,7 +47,7 @@ export default initFactory => (prefix = '', suffix = '') => {
 const defaultPrefix = '__'
 const defaultSuffix = '__'
 
-export const buildDefaultUuid = (uuidByFactory) => {
+export const buildDefaultUuid = uuidByFactory => {
   const uuid = uuidByFactory(defaultPrefix, defaultSuffix)
   uuid.prefix = defaultPrefix
   uuid.suffix = defaultSuffix

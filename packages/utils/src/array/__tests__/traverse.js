@@ -54,10 +54,7 @@ describe('array/helper @traverse', () => {
     })
 
     test('empty && isEmpty', () => {
-      const {
-        empty,
-        isEmpty
-      } = traverse(arr)
+      const { empty, isEmpty } = traverse(arr)
 
       // 1) Check empty ?
       expect(isEmpty()).toBeFalsy()
@@ -68,15 +65,9 @@ describe('array/helper @traverse', () => {
     })
 
     test('`pop` && `popFirst` and `push` && `pushFirst` with one item', () => {
-      const {
-        first,
-        last,
-        size,
-        push,
-        pop,
-        pushFirst,
-        popFirst
-      } = traverse(arr)
+      const { first, last, size, push, pop, pushFirst, popFirst } = traverse(
+        arr
+      )
 
       const testValue = 5
       let arrSize = size()
@@ -132,11 +123,7 @@ describe('array/helper @traverse', () => {
     })
 
     test('empty array', () => {
-      const {
-        lastIndex,
-        inArray,
-        randItem
-      } = traverse([])
+      const { lastIndex, inArray, randItem } = traverse([])
 
       // Test size <= 0
       expect(lastIndex()).toEqual(0)

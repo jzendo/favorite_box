@@ -1,4 +1,7 @@
-import buildUuidFactory, { buildDefaultUuid, genStrUniqueId } from './uniqueFactory'
+import buildUuidFactory, {
+  buildDefaultUuid,
+  genStrUniqueId
+} from './uniqueFactory'
 
 const ctor = () => {}
 

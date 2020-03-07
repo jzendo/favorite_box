@@ -1,4 +1,3 @@
-
 export function checkIdentifier (identifier) {
   try {
     // eslint-disable-next-line

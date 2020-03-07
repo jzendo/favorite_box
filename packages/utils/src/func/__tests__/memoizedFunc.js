@@ -15,18 +15,22 @@ describe('memoizedFunc', () => {
     applyTestFnForSingleParam(singleParamArrowFn)
 
     // eslint-disable-next-line
-    const singleParamFn = function singleParamFn(/* a) */ a) { return a }
+    const singleParamFn = function singleParamFn (/* a) */ a) {
+      return a
+    }
     applyTestFnForSingleParam(singleParamFn)
   })
 
   describe('multi params func', () => {
     // eslint-disable-next-line
-    const singleParamArrowFn = (a,   b) => a
+    const singleParamArrowFn = (a, b) => a
     applyTestFnForSingleParam(singleParamArrowFn)
 
     // Eslint should be disable for next line, for `user dirty function declare`
     // eslint-disable-next-line
-    const singleParamFn = function singleParamFn(/* a) */ a,  b  ) { return a }
+    const singleParamFn = function singleParamFn (/* a) */ a, b) {
+      return a
+    }
     applyTestFnForSingleParam(singleParamFn)
   })
 

@@ -39,31 +39,29 @@ const generateCacheUtil = () => {
 }
 
 const genDyncFnWithOriginArgNames = (argNames, fnName) => {
-  const helpArgsNames = [
-    'fn',
-    'stringify',
-    'cacheUtil'
-  ]
+  const helpArgsNames = ['fn', 'stringify', 'cacheUtil']
 
-  const wrapFnName = `memoized${
-    fnName.slice(0, 1).toUpperCase() + fnName.slice(1)
-  }`
+  const wrapFnName = `memoized${fnName.slice(0, 1).toUpperCase() +
+    fnName.slice(1)}`
 
-  const strSameAsCondition = argNames.map(arg =>
-    `prevArgs.${arg} === ${arg}`
-  ).join(' && ')
+  const strSameAsCondition = argNames
+    .map(arg => `prevArgs.${arg} === ${arg}`)
+    .join(' && ')
 
-  const strStoreArgCondition = argNames.map(arg =>
-    `;prevArgs.${arg} = ${arg}`
-  ).join('')
+  const strStoreArgCondition = argNames
+    .map(arg => `;prevArgs.${arg} = ${arg}`)
+    .join('')
 
   const strMap =
     '{' +
-    argNames.join(': undefined, ') + (argNames.length ? ': undefined' : '') +
+    argNames.join(': undefined, ') +
+    (argNames.length ? ': undefined' : '') +
     '}'
 
   // eslint-disable-next-line
-  return new Function(...helpArgsNames, `
+  return new Function(
+    ...helpArgsNames,
+    `
 /*!
  * The function which is memoized is named '${fnName}'
  */
@@ -87,16 +85,21 @@ var wrapFn = function ${wrapFnName}(${argNames.join(', ')}) {
   }
 
   if (!disposed && cacheUtil.has(uniqueArgKey)) {
-    ${/* Only for unit/test, do not modify here!! */
+    ${
+      /* Only for unit/test, do not modify here!! */
       process.env.NODE_ENV === 'test'
-        ? `fn.__onCacheGetter([${argNames.join(', ')}], uniqueArgKey, cacheUtil)`
+        ? `fn.__onCacheGetter([${argNames.join(
+            ', '
+          )}], uniqueArgKey, cacheUtil)`
         : ''
     }
 
     return cacheUtil.get(uniqueArgKey)
   }${
     process.env.NODE_ENV === 'test'
-      ? `else { fn.__onSkipGetter(disposed, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }`
+      ? `else { fn.__onSkipGetter(disposed, [${argNames.join(
+          ', '
+        )}], uniqueArgKey, cacheUtil) }`
       : ''
   }
 
@@ -107,12 +110,16 @@ var wrapFn = function ${wrapFnName}(${argNames.join(', ')}) {
     cacheUtil.add(uniqueArgKey, r)
     ${
       process.env.NODE_ENV === 'test'
-        ? `fn.__onCacheSetter(r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil)`
+        ? `fn.__onCacheSetter(r, [${argNames.join(
+            ', '
+          )}], uniqueArgKey, cacheUtil)`
         : ''
     }
   }${
     process.env.NODE_ENV === 'test'
-      ? `else { fn.__onSkipSetter(disposed, r, [${argNames.join(', ')}], uniqueArgKey, cacheUtil) }`
+      ? `else { fn.__onSkipSetter(disposed, r, [${argNames.join(
+          ', '
+        )}], uniqueArgKey, cacheUtil) }`
       : ''
   }
 
@@ -125,7 +132,8 @@ wrapFn.dispose = () => {
 }
 
 return wrapFn
-  `)
+  `
+  )
 }
 
 const keyOfMemoizedFn = Symbol
@@ -139,8 +147,12 @@ const keyOfMemoizedFn = Symbol
  * @returns {function}
  */
 export default (fn, userStringify) => {
-  if (!isFunc(fn)) throw new TypeError('The first parameter should be a function.')
-  if (fn.length === 0) throw new TypeError('The function should be one parameter at least.')
+  if (!isFunc(fn)) {
+    throw new TypeError('The first parameter should be a function.')
+  }
+  if (fn.length === 0) {
+    throw new TypeError('The function should be one parameter at least.')
+  }
 
   let memoizedFn = fn[keyOfMemoizedFn]
   // Function name
@@ -151,7 +163,10 @@ export default (fn, userStringify) => {
     memoizedFn = genDyncFnWithOriginArgNames(argNames, fnName)
     fn[keyOfMemoizedFn] = memoizedFn
 
-    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      process.env.NODE_ENV !== 'test'
+    ) {
       console.log(`The memoized function: ${fnName}`)
     }
   }

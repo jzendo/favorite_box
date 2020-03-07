@@ -16,7 +16,7 @@ const testFunc = (a, b, c) => {
 
   // Expensive calc
   for (let i = 0; i < TEST_COUNT; i++) {
-    r += (a + b + c)
+    r += a + b + c
   }
 
   return r
@@ -42,7 +42,7 @@ const userStringify = (a, b, c) => {
   return a + '_' + b + '_' + c
 }
 
-const memoizedFuncTest = (fn) => {
+const memoizedFuncTest = fn => {
   const mFn = memoizedFunc(fn, userStringify)
   const start = getTime()
   loopCalled(mFn)
@@ -53,7 +53,7 @@ const memoizedFuncTest = (fn) => {
   }
 }
 
-const normalFuncTest = (fn) => {
+const normalFuncTest = fn => {
   const start = getTime()
   loopCalled(fn)
   const end = getTime()
@@ -68,4 +68,7 @@ console.log('\nThe memoized function: ', memoizedFunc(testFunc).toString())
 console.log('\n\nMetrics:')
 console.log('\n  - normal called duration: ', normalFuncTest(testFunc).duration)
 console.log('\n')
-console.log('\n  - memoized called duration: ', memoizedFuncTest(testFunc).duration)
+console.log(
+  '\n  - memoized called duration: ',
+  memoizedFuncTest(testFunc).duration
+)

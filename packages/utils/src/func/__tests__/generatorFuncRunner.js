@@ -60,8 +60,11 @@ const getFuncBody = func => {
   const name = func.name
   if (name) return `"{func name} = ${name}"`
 
-  return '"{func message} = ' + func.toString().split('\n')[0] + // First line (including func declare)
+  return (
+    '"{func message} = ' +
+    func.toString().split('\n')[0] + // First line (including func declare)
     '"'
+  )
 }
 
 const testCase = testGeneratorFunc => {
@@ -81,13 +84,11 @@ const testCase = testGeneratorFunc => {
     }
 
     test('promise mode with `no opt`', done => {
-      generatorFuncRunner(testGeneratorFunc)
-        .then(asyncThenable(done))
+      generatorFuncRunner(testGeneratorFunc).then(asyncThenable(done))
     })
 
     test('promise mode with `opt == true`', done => {
-      generatorFuncRunner(testGeneratorFunc, true)
-        .then(asyncThenable(done))
+      generatorFuncRunner(testGeneratorFunc, true).then(asyncThenable(done))
     })
   })
 }
@@ -144,47 +145,59 @@ describe('generatorFuncRunner', () => {
       return 1
     }
 
-    exceptionTestCase('start exception', function * () {
-      const a = 1
-      throw testError
-      /* eslint-disable */
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
-      return a + b
-      /* eslint-enable */
-    }, testError)
+    exceptionTestCase(
+      'start exception',
+      function * () {
+        const a = 1
+        throw testError
+        /* eslint-disable */
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
+        return a + b
+        /* eslint-enable */
+      },
+      testError
+    )
 
-    exceptionTestCase('middle exception', function * () {
-      const a = 1
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
+    exceptionTestCase(
+      'middle exception',
+      function * () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
 
-      throw testError
+        throw testError
 
-      /* eslint-disable */
-      return a + b
-      /* eslint-enable */
-    }, testError)
+        /* eslint-disable */
+        return a + b
+        /* eslint-enable */
+      },
+      testError
+    )
 
-    exceptionTestCase('middle exception after noraml yield', function * () {
-      const a = 1
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
+    exceptionTestCase(
+      'middle exception after noraml yield',
+      function * () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
 
-      const c = yield * noramlGeneratorFunc()
+        const c = yield * noramlGeneratorFunc()
 
-      throw testError
+        throw testError
 
-      /* eslint-disable */
-      return a + b + c
-      /* eslint-enable */
-    }, testError)
+        /* eslint-disable */
+        return a + b + c
+        /* eslint-enable */
+      },
+      testError
+    )
 
     const anotherGeneratorFunc = function * () {
       throw testError
@@ -213,41 +226,53 @@ describe('generatorFuncRunner', () => {
       return 1
     }
 
-    exceptionTestCase('yield another exception', function * () {
-      const a = 1
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
+    exceptionTestCase(
+      'yield another exception',
+      function * () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
 
-      const c = yield * anotherGeneratorFunc()
+        const c = yield * anotherGeneratorFunc()
 
-      return a + b + c
-    }, testError)
+        return a + b + c
+      },
+      testError
+    )
 
-    exceptionTestCase('yield another exception after resolve promise', function * () {
-      const a = 1
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
+    exceptionTestCase(
+      'yield another exception after resolve promise',
+      function * () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
 
-      const c = yield * anotherGeneratorFunc2()
+        const c = yield * anotherGeneratorFunc2()
 
-      return a + b + c
-    }, testError)
+        return a + b + c
+      },
+      testError
+    )
 
-    exceptionTestCase('yield another exception after reject promise', function * () {
-      const a = 1
-      const b = yield new Promise((resolve, reject) => {
-        // Timeout amount is not important, but make `call resolve` async is important
-        setTimeout(() => resolve(1), 100)
-      })
+    exceptionTestCase(
+      'yield another exception after reject promise',
+      function * () {
+        const a = 1
+        const b = yield new Promise((resolve, reject) => {
+          // Timeout amount is not important, but make `call resolve` async is important
+          setTimeout(() => resolve(1), 100)
+        })
 
-      const c = yield * anotherGeneratorFunc3()
+        const c = yield * anotherGeneratorFunc3()
 
-      return a + b + c
-    }, testError)
+        return a + b + c
+      },
+      testError
+    )
 
     test('promise mode with reject', done => {
       function * testGeneratorFunc () {
@@ -259,11 +284,10 @@ describe('generatorFuncRunner', () => {
         return a + b
       }
 
-      generatorFuncRunner(testGeneratorFunc)
-        .catch(err => {
-          expect(err).toEqual(testError)
-          done()
-        })
+      generatorFuncRunner(testGeneratorFunc).catch(err => {
+        expect(err).toEqual(testError)
+        done()
+      })
     })
   })
 
@@ -282,7 +306,7 @@ describe('generatorFuncRunner', () => {
 
       const testGeneratorFunc = function * () {
         const a = yield 1
-        const b = yield new Promise((resolve) => {
+        const b = yield new Promise(resolve => {
           const innerRunnerPromise = generatorFuncRunner(innerGeneratorFunc)
           resolve(innerRunnerPromise)
         })
@@ -292,11 +316,10 @@ describe('generatorFuncRunner', () => {
         return a + b + c
       }
 
-      generatorFuncRunner(testGeneratorFunc)
-        .then(v => {
-          expect(v).toEqual(3)
-          done()
-        })
+      generatorFuncRunner(testGeneratorFunc).then(v => {
+        expect(v).toEqual(3)
+        done()
+      })
     })
 
     test('exception', done => {
@@ -311,7 +334,7 @@ describe('generatorFuncRunner', () => {
 
       const testGeneratorFunc = function * () {
         const a = yield 1
-        const b = yield new Promise((resolve) => {
+        const b = yield new Promise(resolve => {
           const innerRunnerPromise = generatorFuncRunner(innerGeneratorFunc)
           resolve(innerRunnerPromise)
         })
@@ -321,11 +344,10 @@ describe('generatorFuncRunner', () => {
         return a + b + c
       }
 
-      generatorFuncRunner(testGeneratorFunc)
-        .catch(err => {
-          expect(err).toEqual(testError)
-          done()
-        })
+      generatorFuncRunner(testGeneratorFunc).catch(err => {
+        expect(err).toEqual(testError)
+        done()
+      })
     })
   })
 })

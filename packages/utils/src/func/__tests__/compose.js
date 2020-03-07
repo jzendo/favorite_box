@@ -31,9 +31,9 @@ describe('compose', () => {
   })
 
   test('composedFn.args', () => {
-    const fn1 = () => { }
-    const fn2 = () => { }
-    const fn3 = () => { }
+    const fn1 = () => {}
+    const fn2 = () => {}
+    const fn3 = () => {}
 
     const composedFn = compose(fn1, fn2, fn3)
 
@@ -49,9 +49,15 @@ describe('compose', () => {
     let result = ''
     const actual = arrChar.join('')
 
-    const fn1 = () => { result += arrChar[0] }
-    const fn2 = () => { result += arrChar[1] }
-    const fn3 = () => { result += arrChar[2] }
+    const fn1 = () => {
+      result += arrChar[0]
+    }
+    const fn2 = () => {
+      result += arrChar[1]
+    }
+    const fn3 = () => {
+      result += arrChar[2]
+    }
 
     compose(fn1, fn2, fn3)()
 
@@ -62,11 +68,20 @@ describe('compose', () => {
     const arrChar = ['a', 'b', 'c']
 
     let result = ''
-    const actual = arrChar.slice(0).reverse().join('')
+    const actual = arrChar
+      .slice(0)
+      .reverse()
+      .join('')
 
-    const fn1 = () => { result += arrChar[0] }
-    const fn2 = () => { result += arrChar[1] }
-    const fn3 = () => { result += arrChar[2] }
+    const fn1 = () => {
+      result += arrChar[0]
+    }
+    const fn2 = () => {
+      result += arrChar[1]
+    }
+    const fn3 = () => {
+      result += arrChar[2]
+    }
 
     compose(fn1, fn2, fn3, true)()
 
@@ -103,9 +118,9 @@ describe('composeAsync', () => {
   })
 
   test('composedFn.args', () => {
-    const fn1 = () => { }
-    const fn2 = () => { }
-    const fn3 = () => { }
+    const fn1 = () => {}
+    const fn2 = () => {}
+    const fn3 = () => {}
 
     const composedFn = composeAsync(fn1, fn2, fn3)
 
@@ -120,11 +135,24 @@ describe('composeAsync', () => {
 
     const actual = arrChar.join('')
 
-    const fn1 = (v, next) => { v += arrChar[0]; next(v) }
-    const fn2 = (v, next) => { v += arrChar[1]; next(v) }
-    const fn3 = (v, next) => { v += arrChar[2]; next(v) }
+    const fn1 = (v, next) => {
+      v += arrChar[0]
+      next(v)
+    }
+    const fn2 = (v, next) => {
+      v += arrChar[1]
+      next(v)
+    }
+    const fn3 = (v, next) => {
+      v += arrChar[2]
+      next(v)
+    }
 
-    composeAsync(fn1, fn2, fn3)('', result => {
+    composeAsync(
+      fn1,
+      fn2,
+      fn3
+    )('', result => {
       expect(result).toEqual(actual)
       done()
     })
@@ -135,11 +163,24 @@ describe('composeAsync', () => {
 
     const actual = arrChar.join('')
 
-    const fn1 = (v, next) => { v += arrChar[0]; setTimeout(() => next(v)) }
-    const fn2 = (v, next) => { v += arrChar[1]; setTimeout(() => next(v)) }
-    const fn3 = (v, next) => { v += arrChar[2]; setTimeout(() => next(v)) }
+    const fn1 = (v, next) => {
+      v += arrChar[0]
+      setTimeout(() => next(v))
+    }
+    const fn2 = (v, next) => {
+      v += arrChar[1]
+      setTimeout(() => next(v))
+    }
+    const fn3 = (v, next) => {
+      v += arrChar[2]
+      setTimeout(() => next(v))
+    }
 
-    composeAsync(fn1, fn2, fn3)('', result => {
+    composeAsync(
+      fn1,
+      fn2,
+      fn3
+    )('', result => {
       expect(result).toEqual(actual)
       done()
     })
@@ -148,13 +189,30 @@ describe('composeAsync', () => {
   test('reverse composed', done => {
     const arrChar = ['a', 'b', 'c']
 
-    const actual = arrChar.slice(0).reverse().join('')
+    const actual = arrChar
+      .slice(0)
+      .reverse()
+      .join('')
 
-    const fn1 = (v, next) => { v += arrChar[0]; next(v) }
-    const fn2 = (v, next) => { v += arrChar[1]; next(v) }
-    const fn3 = (v, next) => { v += arrChar[2]; next(v) }
+    const fn1 = (v, next) => {
+      v += arrChar[0]
+      next(v)
+    }
+    const fn2 = (v, next) => {
+      v += arrChar[1]
+      next(v)
+    }
+    const fn3 = (v, next) => {
+      v += arrChar[2]
+      next(v)
+    }
 
-    composeAsync(fn1, fn2, fn3, true)('', result => {
+    composeAsync(
+      fn1,
+      fn2,
+      fn3,
+      true
+    )('', result => {
       expect(result).toEqual(actual)
       done()
     })
@@ -163,13 +221,30 @@ describe('composeAsync', () => {
   test('reverse composed with timeout', done => {
     const arrChar = ['a', 'b', 'c']
 
-    const actual = arrChar.slice(0).reverse().join('')
+    const actual = arrChar
+      .slice(0)
+      .reverse()
+      .join('')
 
-    const fn1 = (v, next) => { v += arrChar[0]; setTimeout(() => next(v)) }
-    const fn2 = (v, next) => { v += arrChar[1]; setTimeout(() => next(v)) }
-    const fn3 = (v, next) => { v += arrChar[2]; setTimeout(() => next(v)) }
+    const fn1 = (v, next) => {
+      v += arrChar[0]
+      setTimeout(() => next(v))
+    }
+    const fn2 = (v, next) => {
+      v += arrChar[1]
+      setTimeout(() => next(v))
+    }
+    const fn3 = (v, next) => {
+      v += arrChar[2]
+      setTimeout(() => next(v))
+    }
 
-    composeAsync(fn1, fn2, fn3, true)('', result => {
+    composeAsync(
+      fn1,
+      fn2,
+      fn3,
+      true
+    )('', result => {
       expect(result).toEqual(actual)
       done()
     })

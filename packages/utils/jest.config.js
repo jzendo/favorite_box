@@ -115,9 +115,7 @@ module.exports = {
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: [
-    'src'
-  ],
+  roots: ['src'],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -147,10 +145,7 @@ module.exports = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: [
-    '\\\\node_modules\\\\',
-    '__tests__\\common\\'
-  ]
+  testPathIgnorePatterns: ['\\\\node_modules\\\\', '__tests__\\common\\']
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

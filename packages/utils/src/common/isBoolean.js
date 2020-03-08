@@ -1,3 +1,7 @@
 import typeIs from './typeIs'
 
-export default obj => typeIs(obj, 'boolean')
+export default function (obj) {
+  // Performance
+  if (arguments.length === 0 || obj === undefined) return false
+  return typeIs(obj, 'boolean')
+}

@@ -15,9 +15,17 @@ Object.defineProperty(exports, "isFocusedElement", {
     return _isFocusedElement.default;
   }
 });
+Object.defineProperty(exports, "typingOn", {
+  enumerable: true,
+  get: function () {
+    return _typingOn.default;
+  }
+});
 
 var _setElementValue = _interopRequireDefault(require("./setElementValue"));
 
 var _isFocusedElement = _interopRequireDefault(require("./isFocusedElement"));
+
+var _typingOn = _interopRequireDefault(require("./typingOn"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

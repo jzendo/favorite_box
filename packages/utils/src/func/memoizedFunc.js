@@ -136,9 +136,10 @@ return wrapFn
   )
 }
 
-const keyOfMemoizedFn = Symbol
-  ? Symbol('Symbol.memoizedFunc')
-  : 'Symbol.memoizedFunc'
+const keyOfMemoizedFn =
+  typeof Symbol !== 'undefined'
+    ? Symbol('Symbol.memoizedFunc')
+    : 'Symbol.memoizedFunc'
 
 /**
  * Get function with memoized the function's result for performance.

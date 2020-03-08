@@ -109,11 +109,17 @@ return wrapFn
   `);
 };
 
-const keyOfMemoizedFn = Symbol ? Symbol('Symbol.memoizedFunc') : 'Symbol.memoizedFunc';
+const keyOfMemoizedFn = typeof Symbol !== 'undefined' ? Symbol('Symbol.memoizedFunc') : 'Symbol.memoizedFunc';
 
 var _default = (fn, userStringify) => {
-  if (!(0, _isFunc.default)(fn)) throw new TypeError('The first parameter should be a function.');
-  if (fn.length === 0) throw new TypeError('The function should be one parameter at least.');
+  if (!(0, _isFunc.default)(fn)) {
+    throw new TypeError('The first parameter should be a function.');
+  }
+
+  if (fn.length === 0) {
+    throw new TypeError('The function should be one parameter at least.');
+  }
+
   let memoizedFn = fn[keyOfMemoizedFn];
   const fnName = fn.name || '<anonymous>';
 

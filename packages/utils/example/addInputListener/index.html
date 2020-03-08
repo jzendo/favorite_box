@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>addInputListener sample</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .block {
+        margin: 10px 30px;
+        border: 1px solid #cdcdcd;
+        padding: 10px 20px;
+      }
+
+      input {
+        width: 500px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="block">
+      <h3>Change when typing</h3>
+      <p><input type="text" id="inputElement1" /></p>
+      <p>Your typing: <span id="result1"></span></p>
+    </div>
+
+    <div class="block">
+      <h3>Change when blur</h3>
+      <p><input type="text" id="inputElement2" /></p>
+      <p>Your typing: <span id="result2"></span></p>
+    </div>
+
+    <script>
+      var date = new Date()
+      var uuid = [date.getHours(), date.getMinutes()].join('')
+
+      document.write(
+        '<scr' +
+          'ipt src="../../build/addInputListener.js' +
+          '?' +
+          uuid +
+          '"></scr' +
+          'ipt>'
+      )
+    </script>
+    <script>
+      // Fix IE: browser remember prev input
+      if (document.attachEvent) {
+        setTimeout(function () {
+          document.getElementById(
+            'result1'
+          ).innerText = document.getElementById('inputElement1').value
+          document.getElementById(
+            'result2'
+          ).innerText = document.getElementById('inputElement2').value
+        }, 100)
+      }
+
+      addInputListener(document.getElementById('inputElement1'), true, {
+        onInput: function (val) {
+          document.getElementById('result1').innerText = val
+        }
+      })
+      addInputListener(document.getElementById('inputElement2'), false, {
+        onInput: function (val) {
+          document.getElementById('result2').innerText = val
+        }
+      })
+    </script>
+  </body>
+</html>

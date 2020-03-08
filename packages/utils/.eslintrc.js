@@ -5,6 +5,7 @@ module.exports = {
     node: true
   },
   extends: ['standard'],
+  plugins: ['babel'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'

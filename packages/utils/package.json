@@ -22,12 +22,14 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "npm run build:cjs",
+    "build": "npm run build:cjs && npm run build:umd",
     "build:cjs": "babel --no-comments src --out-dir lib --ignore \"src/**/__tests__/**\"",
+    "build:umd": "rollup --config",
     "lint": "prettier-standard --lint --changed",
     "lint:default": "prettier-standard --lint",
     "lint:fix": "standard --fix && prettier-standard --format --changed",
-    "lint:fix:default": "standard --fix && prettier-standard --format"
+    "lint:fix:default": "standard --fix && prettier-standard --format",
+    "code:format": "standard --fix && prettier-standard --format --changed"
   },
   "files": [
     "lib",
@@ -47,6 +49,8 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
+    "@rollup/plugin-json": "^4.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
     "babel-plugin-minify-constant-folding": "^0.5.0",
@@ -55,6 +59,7 @@
     "cross-env": "^7.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
@@ -62,7 +67,10 @@
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
     "prettier-standard": "^16.2.1",
-    "rollup": "^1.31.0",
+    "rollup": "^2.0.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-inject-process-env": "^1.1.0",
+    "rollup-plugin-uglify": "^6.0.4",
     "standard": "^14.3.1"
   },
   "dependencies": {

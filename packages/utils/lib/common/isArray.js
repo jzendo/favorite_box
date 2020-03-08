@@ -10,6 +10,7 @@ var _isFunc = _interopRequireDefault(require("./isFunc"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = test => {
+  if (!test) return false;
   if ((0, _isFunc.default)(Array.isArray)) return Array.isArray(test);
   return typeof test === 'object' && test.constructor === Array;
 };

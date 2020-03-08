@@ -3,12 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = _default;
 const objectProtoHasOwn = Object.prototype.hasOwnProperty;
 
-var _default = (obj, p) => {
+function _default(obj, p) {
+  if (arguments.length < 1) {
+    return objectProtoHasOwn.call();
+  }
+
   if (!obj || p === undefined) return false;
   return objectProtoHasOwn.call(obj, p);
-};
-
-exports.default = _default;
+}

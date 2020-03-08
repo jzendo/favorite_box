@@ -15,10 +15,10 @@ Object.defineProperty(exports, "isFocusedElement", {
     return _isFocusedElement.default;
   }
 });
-Object.defineProperty(exports, "typingOn", {
+Object.defineProperty(exports, "addInputListener", {
   enumerable: true,
   get: function () {
-    return _typingOn.default;
+    return _addInputListener.default;
   }
 });
 
@@ -26,6 +26,6 @@ var _setElementValue = _interopRequireDefault(require("./setElementValue"));
 
 var _isFocusedElement = _interopRequireDefault(require("./isFocusedElement"));
 
-var _typingOn = _interopRequireDefault(require("./typingOn"));
+var _addInputListener = _interopRequireDefault(require("./addInputListener"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

@@ -3,10 +3,7 @@ import isFunc from '../../common/isFunc'
 import sessionStorage from './sessionStorage'
 
 export default fn => {
-  invariant(
-    isFunc(fn),
-    'The first parameter should be a function.'
-  )
+  invariant(isFunc(fn), 'The first parameter should be a function.')
 
   sessionStorage.clear(fn)
 }

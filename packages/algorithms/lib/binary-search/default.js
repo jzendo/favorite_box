@@ -18,16 +18,35 @@ const defaultCompare = (item, arrayItem) => {
 };
 
 function binarySearch(arr, item, {
-  compare = defaultCompare
+  compare = defaultCompare,
+  sort
 } = {}) {
   (0, _invariant.default)(arguments.length >= 2, 'Two parameters at least');
   (0, _invariant.default)((0, _isArray.default)(arr) && arr.length >= 2, 'The first parameter should be array');
   (0, _invariant.default)(item !== null && item !== void 0 ? item : true, 'The second parameter should be array');
-  const cloned = arr.map((itm, i) => ({
-    value: itm,
-    index: i
-  }));
-  cloned.sort((a, b) => compare(a.value, b.value));
+  let cloned;
+
+  if (sort) {
+    arr = sort(arr);
+
+    if (!arr) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('The "sort" method should return a valid array that has been sort.');
+      }
+
+      return null;
+    }
+
+    cloned = copyArray(arr);
+  } else {
+    cloned = copyArray(arr);
+    cloned.sort((a, b) => compare(a.value, b.value));
+  }
+
+  const dispose = () => {
+    cloned = null;
+  };
+
   let isAsc = false;
   const {
     first,
@@ -35,8 +54,18 @@ function binarySearch(arr, item, {
     size
   } = (0, _traverse.default)(cloned);
   const compareFirstAndLastResult = compare(first().value, last().value);
-  if (compareFirstAndLastResult === 0) return arr[0];
-  if (compareFirstAndLastResult === -1) isAsc = true;else isAsc = false;
+
+  if (compareFirstAndLastResult === 0) {
+    dispose();
+    return arr[0];
+  }
+
+  if (compareFirstAndLastResult === -1) {
+    isAsc = true;
+  } else {
+    isAsc = false;
+  }
+
   const midIndex = Math.floor(size() / 2);
   const startIndex = 0;
   const endIndex = size() - 1;
@@ -47,11 +76,19 @@ function binarySearch(arr, item, {
     isAsc,
     compare
   });
+  dispose();
   if (!result) return null;
   return {
     index: result.index,
     matched: result.value
   };
+}
+
+function copyArray(arr) {
+  return arr.map((itm, i) => ({
+    value: itm,
+    index: i
+  }));
 }
 
 function searchArray(arr, item, {

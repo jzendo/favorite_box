@@ -1,20 +1,23 @@
-import defer from '../common/defer'
-import invariant from '../common/invariant'
-import isFunc from '../common/isFunc'
-import isGeneratorFunc from '../common/isGeneratorFunc'
-import isBoolean from '../common/isBoolean'
-import isPlainObject from '../common/isPlainObject'
+import defer from '../../common/defer'
+import invariant from '../../common/invariant'
+import isFunc from '../../common/isFunc'
+import isGeneratorFunc from '../../common/isGeneratorFunc'
+import isBoolean from '../../common/isBoolean'
+import isPlainObject from '../../common/isPlainObject'
 
 // The generator func result callback name
 const CALLBACK_GENERATOR_FN_RESULT = 'onReturnValue'
 
 // Check runner arguments
 function checkArgs (generatorFunc, optional) {
-  invariant(isGeneratorFunc(generatorFunc), 'Should be a generator function.')
+  invariant(
+    isGeneratorFunc(generatorFunc),
+    'The first parameter should be a generator function.'
+  )
   // boolean or plain object(not null)
   invariant(
     isBoolean(optional) || isPlainObject(optional),
-    'Should be a generator function.'
+    'The second parameter should be boolean or plain object.'
   )
 }
 
@@ -47,8 +50,8 @@ export default function runner (generatorFunc, optional = true) {
   }
 
   try {
-    const iterator = generatorFunc()
-    next(iterator, iterator.next(), optionalArg)
+    const iteratable = generatorFunc()
+    next(iteratable, iteratable.next(), optionalArg)
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.log('generatorFunctionRunner catch exception when init: ', err)
@@ -69,14 +72,14 @@ function finish (opt, err, value = null) {
 }
 
 // Iterate generator object
-function next (iterator, nextGeneratorObject, opt = {}) {
+function next (iteratable, nextGeneratorObject, opt = {}) {
   const isDone = nextGeneratorObject.done
   const value = nextGeneratorObject.value
 
   if (!isDone) {
     if (value instanceof Promise) {
       value
-        .then(v => next(iterator, iterator.next(v), opt))
+        .then(v => next(iteratable, iteratable.next(v), opt))
         .catch(err => {
           if (process.env.NODE_ENV === 'development') {
             console.log(
@@ -88,9 +91,9 @@ function next (iterator, nextGeneratorObject, opt = {}) {
         })
     } else {
       if (value !== undefined) {
-        next(iterator, iterator.next(value), opt)
+        next(iteratable, iteratable.next(value), opt)
       } else {
-        next(iterator, iterator.next(), opt)
+        next(iteratable, iteratable.next(), opt)
       }
     }
   } else {

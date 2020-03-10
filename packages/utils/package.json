@@ -32,6 +32,7 @@
     "code:format": "standard --fix && prettier-standard --format --changed"
   },
   "files": [
+    "build",
     "lib",
     "index.js",
     "README.md",

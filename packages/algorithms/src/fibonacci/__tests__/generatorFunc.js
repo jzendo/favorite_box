@@ -1,4 +1,4 @@
-import fibonacci from '../generatorFunc'
+import fibonacci, { clearCache } from '../generatorFunc'
 import fibonacciTestCase from './common/fibonacciTestCase'
 
-fibonacciTestCase(fibonacci)
+fibonacciTestCase(fibonacci, clearCache, 'generator function')

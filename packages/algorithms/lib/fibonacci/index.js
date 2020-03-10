@@ -9,15 +9,15 @@ Object.defineProperty(exports, "generatorFunc", {
     return _generatorFunc.default;
   }
 });
-Object.defineProperty(exports, "recursive", {
+Object.defineProperty(exports, "wordbook", {
   enumerable: true,
   get: function () {
-    return _recursive.default;
+    return _wordbook.default;
   }
 });
 
 var _generatorFunc = _interopRequireDefault(require("./generatorFunc"));
 
-var _recursive = _interopRequireDefault(require("./recursive"));
+var _wordbook = _interopRequireDefault(require("./wordbook"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

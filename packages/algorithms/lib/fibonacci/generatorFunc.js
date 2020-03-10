@@ -3,29 +3,72 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.clearCache = exports.default = void 0;
+
+var _util = require("./util");
 
 var _isInteger = _interopRequireDefault(require("@jzendo/utils/lib/common/isInteger"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const genByGeneratorFunc = function* (x, returnSequence) {
-  let prevs = [];
-  let i = -1;
+const {
+  resetCache,
+  isCached,
+  getCachedAt,
+  getCachedCopy,
+  clearCache
+} = (0, _util.makeFibonacciCache)();
+exports.clearCache = clearCache;
+const preInitedIndex = -1;
+
+function* cachedValues(x) {
+  let i = preInitedIndex;
 
   while (++i <= x) {
-    if (i <= 1) {
-      if (i === 0) prevs[i] = 0;else prevs[i] = 1;
-    } else {
-      prevs[i] = prevs[i - 1] + prevs[i - 2];
+    if (!isCached(i)) break;else {
+      yield getCachedAt(i);
     }
-
-    if (returnSequence) yield prevs[i];
   }
 
-  const lastItem = prevs[x];
-  prevs = null;
-  if (!returnSequence) return lastItem;
+  return i - 1;
+}
+
+const calcValues = function* (x, returnSequence, i = preInitedIndex, updateAt = 1, prevs = [0, 1]) {
+  function* forwardAndUpdateAt(val) {
+    updateAt = (updateAt + 1) % 2;
+    prevs[updateAt] = val;
+
+    if (returnSequence) {
+      yield prevs[updateAt];
+    }
+  }
+
+  while (++i <= x) {
+    yield* forwardAndUpdateAt(prevs[0] + prevs[1]);
+  }
+
+  if (!returnSequence) return prevs[updateAt];
+};
+
+const genIterate = function* (x, returnSequence) {
+  let updateAt = 1;
+  const prevs = [0, 1];
+  const preOffsetIndex = yield* cachedValues(x);
+
+  if (preOffsetIndex >= 2) {
+    if (preOffsetIndex % 2 === 0) {
+      prevs[0] = getCachedAt(preOffsetIndex);
+      prevs[1] = getCachedAt(preOffsetIndex - 1);
+      updateAt = 0;
+    } else {
+      prevs[0] = getCachedAt(preOffsetIndex - 1);
+      prevs[1] = getCachedAt(preOffsetIndex);
+      updateAt = 1;
+    }
+  }
+
+  const r = yield* calcValues(x, returnSequence, preOffsetIndex, updateAt, prevs);
+  return r;
 };
 
 const parseAndReturn = iterate => {
@@ -49,8 +92,16 @@ const fibonacci = (x, returnSequence = true) => {
     return null;
   }
 
-  const iterate = genByGeneratorFunc(x, returnSequence);
-  const arr = parseAndReturn(iterate);
+  let arr;
+
+  if (isCached(x)) {
+    arr = getCachedCopy(x);
+  } else {
+    const iterate = genIterate(x, returnSequence);
+    arr = parseAndReturn(iterate);
+    resetCache(arr);
+  }
+
   if (returnSequence) return arr;
   return arr[arr.length - 1];
 };

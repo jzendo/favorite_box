@@ -4,9 +4,9 @@ const INVALID_INDEX = -1
 const RND_DEFAULT_INDEX = INVALID_INDEX
 
 /**
- * Get traverse utils for array
+ * The traversing utils for array
  *
- * @param {Array} arr the operating array
+ * @param {Array} arr the target array
  * @returns {Object}
  */
 export default function traverse (arr) {

@@ -3,6 +3,9 @@ import isNumber from '../common/isNumber'
 
 const nativeFill = Array.prototype.fill
 
+/**
+ * Get array which fill with the specified data
+ */
 export default (times, val = '') => {
   invariant(
     times !== undefined && isNumber(times, true),

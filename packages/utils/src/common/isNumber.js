@@ -1,14 +1,24 @@
 import typeIs from './typeIs'
 
-export default function (obj, nonNaN = false) {
-  // Performance
-  if (arguments.length === 0 || obj === undefined) return false
+export const isNaN = Number.isNaN || window.isNaN
 
-  const r = typeIs(obj, 'number')
+export const isFinite = Number.isFinite || window.isFinite
+export const MAX_NUMBER = Number.MAX_VALUE
+export const MIN_NUMBER = Number.MIN_VALUE
+
+export default function (val, nonNaN = false) {
+  // Performance
+  if (arguments.length === 0 || val === undefined) return false
+
+  let r = typeIs(val, 'number')
 
   // Return when non number
   if (!r) return r
 
-  if (nonNaN) return isNaN(obj)
+  if (nonNaN) r = !isNaN(val)
+
+  // Check valid number
+  r = r && isFinite(val)
+
   return r
 }

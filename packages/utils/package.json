@@ -1,7 +1,7 @@
 {
   "name": "@jzendo/utils",
   "version": "0.2.0",
-  "main": "index.js",
+  "main": "./lib",
   "description": "Many utils is setup for your daily job, enjoy it",
   "repository": "https://github.com/jzendo/favorite_box.git",
   "homepage": "https://github.com/jzendo/favorite_box/tree/master/packages/utils",

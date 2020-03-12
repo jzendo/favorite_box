@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.makeFibonacciCache = void 0;
+exports.warnWillOutOfMemoryByFibonacci = exports.makeFibonacciCache = void 0;
 
 var _isArray = _interopRequireDefault(require("@jzendo/utils/lib/common/isArray"));
 
@@ -20,6 +20,7 @@ const makeFibonacciCache = () => {
 
   const setCachedAt = (x, val) => {
     cached[x] = val;
+    return val;
   };
 
   const resetCache = newCached => {
@@ -32,6 +33,7 @@ const makeFibonacciCache = () => {
     }
 
     cached = r;
+    return r;
   };
 
   const clearCache = () => {
@@ -49,3 +51,12 @@ const makeFibonacciCache = () => {
 };
 
 exports.makeFibonacciCache = makeFibonacciCache;
+const MAX_ALLOWED_NUMBER = 10000000;
+
+const warnWillOutOfMemoryByFibonacci = num => {
+  if (num > MAX_ALLOWED_NUMBER) {
+    throw new TypeError(`Too big number, allowing ${MAX_ALLOWED_NUMBER} at most.`);
+  }
+};
+
+exports.warnWillOutOfMemoryByFibonacci = warnWillOutOfMemoryByFibonacci;

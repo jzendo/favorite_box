@@ -1,4 +1,4 @@
-import { makeFibonacciCache } from './util'
+import { makeFibonacciCache, warnWillOutOfMemoryByFibonacci } from './util'
 import isInteger from '@jzendo/utils/lib/common/isInteger'
 
 const {
@@ -15,8 +15,7 @@ const recursive = x => {
   if (x === 0) return 0
   if (x === 1) return 1
 
-  setCachedAt(x, recursive(x - 1) + recursive(x - 2))
-  return getCachedAt(x)
+  return setCachedAt(x, recursive(x - 1) + recursive(x - 2))
 }
 
 // Impl A
@@ -58,6 +57,8 @@ const fibonacci = (x, returnSequence = true) => {
   if (!isInteger(x, true) || x < 0) {
     return null
   }
+
+  warnWillOutOfMemoryByFibonacci(x)
 
   if (returnSequence) return getFibonacciSequence(x)
   return recursive(x)

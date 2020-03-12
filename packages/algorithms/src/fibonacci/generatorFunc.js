@@ -1,4 +1,4 @@
-import { makeFibonacciCache } from './util'
+import { makeFibonacciCache, warnWillOutOfMemoryByFibonacci } from './util'
 import isInteger from '@jzendo/utils/lib/common/isInteger'
 
 const {
@@ -30,6 +30,7 @@ const calcValues = function * (
   updateAt = 1,
   prevs = [0, 1]
 ) {
+  /*
   function * forwardAndUpdateAt (val) {
     updateAt = (updateAt + 1) % 2
     prevs[updateAt] = val
@@ -41,6 +42,17 @@ const calcValues = function * (
   // Case: >= 2
   while (++i <= x) {
     yield * forwardAndUpdateAt(prevs[0] + prevs[1])
+  }
+  */
+
+  let val
+  while (++i <= x) {
+    val = prevs[0] + prevs[1]
+    updateAt = (updateAt + 1) % 2
+    prevs[updateAt] = val
+    if (returnSequence) {
+      yield prevs[updateAt]
+    }
   }
 
   if (!returnSequence) return prevs[updateAt]
@@ -105,6 +117,8 @@ const fibonacci = (x, returnSequence = true) => {
   if (!isInteger(x, true) || x < 0) {
     return null
   }
+
+  warnWillOutOfMemoryByFibonacci(x)
 
   let arr
 

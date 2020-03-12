@@ -34,17 +34,16 @@ function* cachedValues(x) {
 }
 
 const calcValues = function* (x, returnSequence, i = preInitedIndex, updateAt = 1, prevs = [0, 1]) {
-  function* forwardAndUpdateAt(val) {
+  let val;
+
+  while (++i <= x) {
+    val = prevs[0] + prevs[1];
     updateAt = (updateAt + 1) % 2;
     prevs[updateAt] = val;
 
     if (returnSequence) {
       yield prevs[updateAt];
     }
-  }
-
-  while (++i <= x) {
-    yield* forwardAndUpdateAt(prevs[0] + prevs[1]);
   }
 
   if (!returnSequence) return prevs[updateAt];
@@ -92,6 +91,7 @@ const fibonacci = (x, returnSequence = true) => {
     return null;
   }
 
+  (0, _util.warnWillOutOfMemoryByFibonacci)(x);
   let arr;
 
   if (isCached(x)) {

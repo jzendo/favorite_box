@@ -1,14 +1,21 @@
-/* global describe, expect, test, beforeEach */
+/* global describe, expect, test, afterEach */
 import fib10 from './fibonacci_10.json'
 import fib20 from './fibonacci_20.json'
 import fib50 from './fibonacci_50.json'
 
 export default (fibonacci, clearCache, msg) => {
+  function testBigNumber (msg, number, json) {
+    test(`fibonacci with ${msg}`, () => {
+      expect(fibonacci(number)).toEqual(json)
+      expect(fibonacci(number, false)).toEqual(json[json.length - 1])
+    })
+  }
+
   describe(`algorithms/fibonacci [${msg}]`, () => {
-    beforeEach(() => {
+    afterEach(() => {
       // Remove prev result, for performance test
       clearCache()
-    })
+    }, 10000) // Timeout for: fib50
 
     test('invalid parameter', () => {
       expect(fibonacci()).toBeNull()
@@ -32,14 +39,13 @@ export default (fibonacci, clearCache, msg) => {
 
       expect(fibonacci(3)).toEqual([0, 1, 1, 2])
       expect(fibonacci(3, false)).toEqual(2)
-
-      expect(fibonacci(10)).toEqual(fib10)
-      expect(fibonacci(20)).toEqual(fib20)
-      expect(fibonacci(50)).toEqual(fib50)
-
-      expect(fibonacci(10, false)).toEqual(fib10[fib10.length - 1])
-      expect(fibonacci(20, false)).toEqual(fib20[fib20.length - 1])
-      expect(fibonacci(50, false)).toEqual(fib50[fib50.length - 1])
+    })
+    ;[
+      [10, fib10],
+      [20, fib20],
+      [50, fib50]
+    ].forEach(([number, json]) => {
+      testBigNumber(`num=${number}`, number, json)
     })
   })
 }

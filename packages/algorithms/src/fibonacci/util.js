@@ -9,6 +9,7 @@ export const makeFibonacciCache = () => {
   const getCachedAt = x => cached[x]
   const setCachedAt = (x, val) => {
     cached[x] = val
+    return val
   }
 
   const resetCache = newCached => {
@@ -22,6 +23,8 @@ export const makeFibonacciCache = () => {
     }
 
     cached = r
+
+    return r
   }
 
   const clearCache = () => {
@@ -35,5 +38,15 @@ export const makeFibonacciCache = () => {
     getCachedCopy,
     resetCache,
     clearCache
+  }
+}
+
+// The max allowed number is for getting fibonacci sequence.
+const MAX_ALLOWED_NUMBER = 10000000
+export const warnWillOutOfMemoryByFibonacci = num => {
+  if (num > MAX_ALLOWED_NUMBER) {
+    throw new TypeError(
+      `Too big number, allowing ${MAX_ALLOWED_NUMBER} at most.`
+    )
   }
 }

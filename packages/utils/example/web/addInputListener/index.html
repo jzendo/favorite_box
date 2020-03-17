@@ -42,9 +42,10 @@
       var date = new Date()
       var uuid = [date.getHours(), date.getMinutes()].join('')
 
+      // Cache only seconds
       document.write(
         '<scr' +
-          'ipt src="../../build/addInputListener.js' +
+          'ipt src="../../../build/addInputListener.js' +
           '?' +
           uuid +
           '"></scr' +

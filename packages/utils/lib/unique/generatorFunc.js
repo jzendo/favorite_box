@@ -17,22 +17,22 @@ function factory({
 }) {
   let continueGotten = true;
 
-  const generatorFunc = function* () {
+  const generateUuidIterable = function* () {
     while (true) {
       if (!continueGotten) break;
       yield (0, _uniqueFactory.genStrUniqueId)(prefix, suffix);
     }
   };
 
-  const iterator = generatorFunc();
+  const generateUuidIterator = generateUuidIterable();
   return {
     getCurrent() {
-      return iterator.next().value;
+      return generateUuidIterator.next().value;
     },
 
     onDispose() {
       continueGotten = false;
-      iterator.next();
+      generateUuidIterator.next();
     }
 
   };

@@ -24,13 +24,13 @@ function checkArgs (generatorFunc, optional) {
 /**
  * Run the generator function
  *
- * @param {function} generatorFunc generator function
+ * @param {function} generatorFuncIterable generator function
  * @param {?object|boolean} optional return promise or callback mode
  * @returns {promise|undefined}
  */
-export default function runner (generatorFunc, optional = true) {
+export default function runner (generatorFuncIterable, optional = true) {
   // Check arguments
-  checkArgs(generatorFunc, optional)
+  checkArgs(generatorFuncIterable, optional)
 
   let runnerCalledResult
   let optionalArg = optional
@@ -50,8 +50,8 @@ export default function runner (generatorFunc, optional = true) {
   }
 
   try {
-    const iteratable = generatorFunc()
-    next(iteratable, iteratable.next(), optionalArg)
+    const iterator = generatorFuncIterable()
+    next(iterator, iterator.next(), optionalArg)
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.log('generatorFunctionRunner catch exception when init: ', err)
@@ -72,14 +72,14 @@ function finish (opt, err, value = null) {
 }
 
 // Iterate generator object
-function next (iteratable, nextGeneratorObject, opt = {}) {
+function next (iterator, nextGeneratorObject, opt = {}) {
   const isDone = nextGeneratorObject.done
   const value = nextGeneratorObject.value
 
   if (!isDone) {
     if (value instanceof Promise) {
       value
-        .then(v => next(iteratable, iteratable.next(v), opt))
+        .then(v => next(iterator, iterator.next(v), opt))
         .catch(err => {
           if (process.env.NODE_ENV === 'development') {
             console.log(
@@ -91,9 +91,9 @@ function next (iteratable, nextGeneratorObject, opt = {}) {
         })
     } else {
       if (value !== undefined) {
-        next(iteratable, iteratable.next(value), opt)
+        next(iterator, iterator.next(value), opt)
       } else {
-        next(iteratable, iteratable.next(), opt)
+        next(iterator, iterator.next(), opt)
       }
     }
   } else {

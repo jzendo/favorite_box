@@ -24,13 +24,13 @@ function checkArgs (generatorFunc, optional) {
 /**
  * Run the generator function
  *
- * @param {function} generatorFunc generator function
+ * @param {function} generatorFuncIterable generator function
  * @param {?object|boolean} optional return promise or callback mode
  * @returns {promise|undefined}
  */
-export default function runner (generatorFunc, optional = true) {
+export default function runner (generatorFuncIterable, optional = true) {
   // Check arguments
-  checkArgs(generatorFunc, optional)
+  checkArgs(generatorFuncIterable, optional)
 
   let runnerCalledResult
   let optionalArg = optional
@@ -50,8 +50,8 @@ export default function runner (generatorFunc, optional = true) {
   }
 
   try {
-    const iteratable = generatorFunc()
-    iterateResult(iteratable)
+    const iterator = generatorFuncIterable()
+    iterateResult(iterator)
       .then(v => {
         finish(optionalArg, null, v)
       })
@@ -80,12 +80,12 @@ function finish (opt, err, value = null) {
   }
 }
 
-async function iterateResult (iteratable) {
+async function iterateResult (iterator) {
   let r
   let value
   let yieldValue
 
-  r = iteratable.next()
+  r = iterator.next()
 
   while (!r.done) {
     value = r.value
@@ -100,9 +100,9 @@ async function iterateResult (iteratable) {
 
     // Next yield
     if (yieldValue !== undefined) {
-      r = iteratable.next(yieldValue)
+      r = iterator.next(yieldValue)
     } else {
-      r = iteratable.next()
+      r = iterator.next()
     }
   }
 

@@ -5,23 +5,25 @@ import buildUuidFactory, {
 
 function factory ({ prefix, suffix }) {
   let continueGotten = true
-  const generatorFunc = function * () {
+
+  const generateUuidIterable = function * () {
     while (true) {
       if (!continueGotten) break
       // Yield next uuid
       yield genStrUniqueId(prefix, suffix)
     }
   }
-  const iterator = generatorFunc()
+
+  const generateUuidIterator = generateUuidIterable()
 
   return {
     getCurrent () {
-      return iterator.next().value
+      return generateUuidIterator.next().value
     },
     onDispose () {
       // End generator func firstly
       continueGotten = false
-      iterator.next()
+      generateUuidIterator.next()
     }
   }
 }

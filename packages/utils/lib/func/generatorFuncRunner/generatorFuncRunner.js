@@ -26,8 +26,8 @@ function checkArgs(generatorFunc, optional) {
   (0, _invariant.default)((0, _isBoolean.default)(optional) || (0, _isPlainObject.default)(optional), 'The second parameter should be boolean or plain object.');
 }
 
-function runner(generatorFunc, optional = true) {
-  checkArgs(generatorFunc, optional);
+function runner(generatorFuncIterable, optional = true) {
+  checkArgs(generatorFuncIterable, optional);
   let runnerCalledResult;
   let optionalArg = optional;
 
@@ -46,8 +46,8 @@ function runner(generatorFunc, optional = true) {
   }
 
   try {
-    const iteratable = generatorFunc();
-    next(iteratable, iteratable.next(), optionalArg);
+    const iterator = generatorFuncIterable();
+    next(iterator, iterator.next(), optionalArg);
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.log('generatorFunctionRunner catch exception when init: ', err);
@@ -69,13 +69,13 @@ function finish(opt, err, value = null) {
   }
 }
 
-function next(iteratable, nextGeneratorObject, opt = {}) {
+function next(iterator, nextGeneratorObject, opt = {}) {
   const isDone = nextGeneratorObject.done;
   const value = nextGeneratorObject.value;
 
   if (!isDone) {
     if (value instanceof Promise) {
-      value.then(v => next(iteratable, iteratable.next(v), opt)).catch(err => {
+      value.then(v => next(iterator, iterator.next(v), opt)).catch(err => {
         if (process.env.NODE_ENV === 'development') {
           console.log('generatorFunctionRunner catch exception when next: ', err);
         }
@@ -84,9 +84,9 @@ function next(iteratable, nextGeneratorObject, opt = {}) {
       });
     } else {
       if (value !== undefined) {
-        next(iteratable, iteratable.next(value), opt);
+        next(iterator, iterator.next(value), opt);
       } else {
-        next(iteratable, iteratable.next(), opt);
+        next(iterator, iterator.next(), opt);
       }
     }
   } else {

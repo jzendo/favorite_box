@@ -26,8 +26,8 @@ function checkArgs(generatorFunc, optional) {
   (0, _invariant.default)((0, _isBoolean.default)(optional) || (0, _isPlainObject.default)(optional), 'The second parameter should be boolean or plain object.');
 }
 
-function runner(generatorFunc, optional = true) {
-  checkArgs(generatorFunc, optional);
+function runner(generatorFuncIterable, optional = true) {
+  checkArgs(generatorFuncIterable, optional);
   let runnerCalledResult;
   let optionalArg = optional;
 
@@ -46,8 +46,8 @@ function runner(generatorFunc, optional = true) {
   }
 
   try {
-    const iteratable = generatorFunc();
-    iterateResult(iteratable).then(v => {
+    const iterator = generatorFuncIterable();
+    iterateResult(iterator).then(v => {
       finish(optionalArg, null, v);
     }).catch(err => {
       if (process.env.NODE_ENV === 'development') {
@@ -77,11 +77,11 @@ function finish(opt, err, value = null) {
   }
 }
 
-async function iterateResult(iteratable) {
+async function iterateResult(iterator) {
   let r;
   let value;
   let yieldValue;
-  r = iteratable.next();
+  r = iterator.next();
 
   while (!r.done) {
     value = r.value;
@@ -95,9 +95,9 @@ async function iterateResult(iteratable) {
     }
 
     if (yieldValue !== undefined) {
-      r = iteratable.next(yieldValue);
+      r = iterator.next(yieldValue);
     } else {
-      r = iteratable.next();
+      r = iterator.next();
     }
   }
 

@@ -16,7 +16,15 @@ var _default = (obj, shouldCheckNull = true) => {
     r = obj !== null;
   }
 
-  return r && (0, _typeIs.default)(obj, 'object');
+  r = r && (0, _typeIs.default)(obj, 'object');
+  if (!r) return r;
+  let proto = obj;
+
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return Object.getPrototypeOf(obj) === proto;
 };
 
 exports.default = _default;

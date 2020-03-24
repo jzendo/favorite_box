@@ -21,7 +21,7 @@
     "uuid maker"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "testAndBuild": "npm run test && npm run build",
     "prepublishOnly": "npm run testAndBuild",
     "prebuild": "npm run test",

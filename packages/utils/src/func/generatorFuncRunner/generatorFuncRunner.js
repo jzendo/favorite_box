@@ -25,15 +25,15 @@ function checkArgs (generatorFunc, optional) {
  * Run the generator function
  *
  * @param {function} generatorFuncIterable generator function
- * @param {?object|boolean} optional return promise or callback mode
+ * @param {?object|boolean} promisify return promise or callback mode
  * @returns {promise|undefined}
  */
-export default function runner (generatorFuncIterable, optional = true) {
+export default function runner (generatorFuncIterable, promisify = true) {
   // Check arguments
-  checkArgs(generatorFuncIterable, optional)
+  checkArgs(generatorFuncIterable, promisify)
 
   let runnerCalledResult
-  let optionalArg = optional
+  let optionalArg = promisify
 
   // Result with promise ?
   if (optionalArg === true) {
@@ -53,6 +53,7 @@ export default function runner (generatorFuncIterable, optional = true) {
     const iterator = generatorFuncIterable()
     next(iterator, iterator.next(), optionalArg)
   } catch (err) {
+    /* istanbul ignore next */
     if (process.env.NODE_ENV === 'development') {
       console.log('generatorFunctionRunner catch exception when init: ', err)
     }
@@ -81,6 +82,7 @@ function next (iterator, nextGeneratorObject, opt = {}) {
       value
         .then(v => next(iterator, iterator.next(v), opt))
         .catch(err => {
+          /* istanbul ignore next */
           if (process.env.NODE_ENV === 'development') {
             console.log(
               'generatorFunctionRunner catch exception when next: ',
@@ -90,11 +92,7 @@ function next (iterator, nextGeneratorObject, opt = {}) {
           finish(opt, err, null)
         })
     } else {
-      if (value !== undefined) {
-        next(iterator, iterator.next(value), opt)
-      } else {
-        next(iterator, iterator.next(), opt)
-      }
+      next(iterator, iterator.next(value), opt)
     }
   } else {
     finish(opt, null, value)

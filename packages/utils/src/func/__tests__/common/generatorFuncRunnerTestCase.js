@@ -22,15 +22,18 @@ function * anotherGeneratorFunc2 () {
 }
 
 function * testGeneratorFunc1 () {
+  yield
   const a = 1
   const b = 2
   return a + b
 }
 
 function * testGeneratorFunc2 () {
+  // eslint-disable-next-line no-unused-vars
+  const t = yield // t == undefined
   const a = 1
   const b = yield 2
-  return a + b
+  return (t === undefined ? 0 : 1) + a + b
 }
 
 function * testGeneratorFunc3 () {
@@ -135,6 +138,20 @@ export default generatorFuncRunner => {
         expect(() => {
           generatorFuncRunner(function * () {}, 123)
         }).toThrow()
+      })
+    })
+
+    test('exception when call iterable', done => {
+      const testError = new Error('test')
+      const testError2 = new Error('test2')
+
+      generatorFuncRunner(function * () {
+        throw testError
+        // eslint-disable-next-line no-unreachable
+        throw testError2
+      }).catch(err => {
+        expect(err).toEqual(testError)
+        done()
       })
     })
 

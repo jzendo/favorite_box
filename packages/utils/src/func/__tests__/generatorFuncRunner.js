@@ -1,4 +1,4 @@
-import generatorFuncRunner from '../generatorFuncRunner'
+import generatorFuncRunner from '../generatorFuncRunner/generatorFuncRunner'
 import testCase from './common/generatorFuncRunnerTestCase'
 
 testCase(generatorFuncRunner)

@@ -25,15 +25,15 @@ function checkArgs (generatorFunc, optional) {
  * Run the generator function
  *
  * @param {function} generatorFuncIterable generator function
- * @param {?object|boolean} optional return promise or callback mode
+ * @param {?object|boolean} promisify return promise or callback mode
  * @returns {promise|undefined}
  */
-export default function runner (generatorFuncIterable, optional = true) {
+export default function runner (generatorFuncIterable, promisify = true) {
   // Check arguments
-  checkArgs(generatorFuncIterable, optional)
+  checkArgs(generatorFuncIterable, promisify)
 
   let runnerCalledResult
-  let optionalArg = optional
+  let optionalArg = promisify
 
   // Result with promise ?
   if (optionalArg === true) {
@@ -49,24 +49,18 @@ export default function runner (generatorFuncIterable, optional = true) {
     }
   }
 
-  try {
-    const iterator = generatorFuncIterable()
-    iterateResult(iterator)
-      .then(v => {
-        finish(optionalArg, null, v)
-      })
-      .catch(err => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('generatorFunctionRunner catch exception, catch: ', err)
-        }
-        finish(optionalArg, err, null)
-      })
-  } catch (err) {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('generatorFunctionRunner catch exception, init: ', err)
-    }
-    finish(optionalArg, err, null)
-  }
+  const iterator = generatorFuncIterable()
+  iterateResult(iterator)
+    .then(v => {
+      finish(optionalArg, null, v)
+    })
+    .catch(err => {
+      /* istanbul ignore next */
+      if (process.env.NODE_ENV === 'development') {
+        console.log('generatorFunctionRunner catch exception, catch: ', err)
+      }
+      finish(optionalArg, err, null)
+    })
 
   // Undefined or promise
   return runnerCalledResult
@@ -98,12 +92,8 @@ async function iterateResult (iterator) {
       yieldValue = undefined
     }
 
-    // Next yield
-    if (yieldValue !== undefined) {
-      r = iterator.next(yieldValue)
-    } else {
-      r = iterator.next()
-    }
+    // Reasisgn to the left.
+    r = iterator.next(yieldValue)
   }
 
   return r.value

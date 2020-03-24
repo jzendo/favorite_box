@@ -26,10 +26,10 @@ function checkArgs(generatorFunc, optional) {
   (0, _invariant.default)((0, _isBoolean.default)(optional) || (0, _isPlainObject.default)(optional), 'The second parameter should be boolean or plain object.');
 }
 
-function runner(generatorFuncIterable, optional = true) {
-  checkArgs(generatorFuncIterable, optional);
+function runner(generatorFuncIterable, promisify = true) {
+  checkArgs(generatorFuncIterable, promisify);
   let runnerCalledResult;
-  let optionalArg = optional;
+  let optionalArg = promisify;
 
   if (optionalArg === true) {
     const {
@@ -83,11 +83,7 @@ function next(iterator, nextGeneratorObject, opt = {}) {
         finish(opt, err, null);
       });
     } else {
-      if (value !== undefined) {
-        next(iterator, iterator.next(value), opt);
-      } else {
-        next(iterator, iterator.next(), opt);
-      }
+      next(iterator, iterator.next(value), opt);
     }
   } else {
     finish(opt, null, value);

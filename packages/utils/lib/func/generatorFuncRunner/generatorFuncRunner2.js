@@ -26,10 +26,10 @@ function checkArgs(generatorFunc, optional) {
   (0, _invariant.default)((0, _isBoolean.default)(optional) || (0, _isPlainObject.default)(optional), 'The second parameter should be boolean or plain object.');
 }
 
-function runner(generatorFuncIterable, optional = true) {
-  checkArgs(generatorFuncIterable, optional);
+function runner(generatorFuncIterable, promisify = true) {
+  checkArgs(generatorFuncIterable, promisify);
   let runnerCalledResult;
-  let optionalArg = optional;
+  let optionalArg = promisify;
 
   if (optionalArg === true) {
     const {
@@ -45,25 +45,16 @@ function runner(generatorFuncIterable, optional = true) {
     };
   }
 
-  try {
-    const iterator = generatorFuncIterable();
-    iterateResult(iterator).then(v => {
-      finish(optionalArg, null, v);
-    }).catch(err => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('generatorFunctionRunner catch exception, catch: ', err);
-      }
-
-      finish(optionalArg, err, null);
-    });
-  } catch (err) {
+  const iterator = generatorFuncIterable();
+  iterateResult(iterator).then(v => {
+    finish(optionalArg, null, v);
+  }).catch(err => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('generatorFunctionRunner catch exception, init: ', err);
+      console.log('generatorFunctionRunner catch exception, catch: ', err);
     }
 
     finish(optionalArg, err, null);
-  }
-
+  });
   return runnerCalledResult;
 }
 
@@ -94,11 +85,7 @@ async function iterateResult(iterator) {
       yieldValue = undefined;
     }
 
-    if (yieldValue !== undefined) {
-      r = iterator.next(yieldValue);
-    } else {
-      r = iterator.next();
-    }
+    r = iterator.next(yieldValue);
   }
 
   return r.value;

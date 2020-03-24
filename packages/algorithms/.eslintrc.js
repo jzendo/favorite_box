@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: ['standard'],
   plugins: ['babel'],
+  parser: 'babel-eslint',
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'

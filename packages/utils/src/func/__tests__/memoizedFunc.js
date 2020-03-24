@@ -1,13 +1,7 @@
 /* global describe, test, expect */
 import memoizedFunc from '../memoizedFunc'
 // import getFuncArgNames from '../../common/getFuncArgNames'
-import { singleParamTestCase } from './common/memoizedFuncHelper'
-
-const applyTestFnForSingleParam = fn => {
-  test(`func name: ${fn.name}`, () => {
-    singleParamTestCase(fn)
-  })
-}
+import { applyTestFnForSingleParam } from './common/memoizedFuncHelper'
 
 describe('memoizedFunc', () => {
   describe('single param func', () => {

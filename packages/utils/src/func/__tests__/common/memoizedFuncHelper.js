@@ -1,55 +1,57 @@
-/* global jest, expect */
+/* global jest, expect, test */
 import memoizedFunc from '../../memoizedFunc'
 import getFuncArgNames from '../../../common/getFuncArgNames'
 
-export const singleParamTestCase = testFn => {
-  const cacheGetterMockFn = jest.fn()
-  const skipGetterMockFn = jest.fn()
-  const cacheSetterMockFn = jest.fn()
-  const skipSetterMockFn = jest.fn()
+export const applyTestFnForSingleParam = testFn => {
+  test(`func name: ${testFn.name}`, () => {
+    const cacheGetterMockFn = jest.fn()
+    const skipGetterMockFn = jest.fn()
+    const cacheSetterMockFn = jest.fn()
+    const skipSetterMockFn = jest.fn()
 
-  setHookers(testFn, {
-    cacheGetter: cacheGetterMockFn,
-    skipGetter: skipGetterMockFn,
-    cacheSetter: cacheSetterMockFn,
-    skipSetter: skipSetterMockFn
+    setHookers(testFn, {
+      cacheGetter: cacheGetterMockFn,
+      skipGetter: skipGetterMockFn,
+      cacheSetter: cacheSetterMockFn,
+      skipSetter: skipSetterMockFn
+    })
+
+    const mFn = memoizedFunc(testFn)
+
+    expect(mFn.length).toEqual(testFn.length)
+
+    // Should be the same arguments and named
+    expect(getFuncArgNames(mFn)).toEqual(getFuncArgNames(testFn))
+
+    // First call
+    mFn(1)
+    expect(cacheGetterMockFn).not.toBeCalled()
+    expect(skipGetterMockFn).toBeCalledTimes(1)
+    expect(cacheSetterMockFn).toBeCalledTimes(1)
+    expect(skipSetterMockFn).not.toBeCalled()
+
+    // Re-call the same argument
+    mFn(1)
+    expect(cacheGetterMockFn).toBeCalledTimes(1)
+    expect(skipGetterMockFn).toBeCalledTimes(1)
+    expect(cacheSetterMockFn).toBeCalledTimes(1)
+    expect(skipSetterMockFn).not.toBeCalled()
+
+    // Call another argument
+    mFn(2)
+    expect(cacheGetterMockFn).toBeCalledTimes(1)
+    expect(skipGetterMockFn).toBeCalledTimes(2)
+    expect(cacheSetterMockFn).toBeCalledTimes(2)
+    expect(skipSetterMockFn).not.toBeCalled()
+
+    // Dispose and call any argument
+    mFn.dispose()
+    mFn(1)
+    expect(cacheGetterMockFn).toBeCalledTimes(1)
+    expect(skipGetterMockFn).toBeCalledTimes(3)
+    expect(cacheSetterMockFn).toBeCalledTimes(2)
+    expect(skipSetterMockFn).toBeCalledTimes(1)
   })
-
-  const mFn = memoizedFunc(testFn)
-
-  expect(getFuncArgNames(mFn)).toMatchSnapshot()
-
-  // Should be the same arguments and named
-  expect(getFuncArgNames(mFn)).toEqual(getFuncArgNames(testFn))
-
-  // First call
-  mFn(1)
-  expect(cacheGetterMockFn).not.toBeCalled()
-  expect(skipGetterMockFn).toBeCalledTimes(1)
-  expect(cacheSetterMockFn).toBeCalledTimes(1)
-  expect(skipSetterMockFn).not.toBeCalled()
-
-  // Re-call the same argument
-  mFn(1)
-  expect(cacheGetterMockFn).toBeCalledTimes(1)
-  expect(skipGetterMockFn).toBeCalledTimes(1)
-  expect(cacheSetterMockFn).toBeCalledTimes(1)
-  expect(skipSetterMockFn).not.toBeCalled()
-
-  // Call another argument
-  mFn(2)
-  expect(cacheGetterMockFn).toBeCalledTimes(1)
-  expect(skipGetterMockFn).toBeCalledTimes(2)
-  expect(cacheSetterMockFn).toBeCalledTimes(2)
-  expect(skipSetterMockFn).not.toBeCalled()
-
-  // Dispose and call any argument
-  mFn.dispose()
-  mFn(1)
-  expect(cacheGetterMockFn).toBeCalledTimes(1)
-  expect(skipGetterMockFn).toBeCalledTimes(3)
-  expect(cacheSetterMockFn).toBeCalledTimes(2)
-  expect(skipSetterMockFn).toBeCalledTimes(1)
 }
 
 /*
